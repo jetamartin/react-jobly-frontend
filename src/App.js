@@ -15,17 +15,11 @@ import NotFound from './NotFound';
 import './App.css';
 
 function App() {
-  const INITIAL_USER_STATE = {
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    email: ""
-  }
+  const INITIAL_USER_STATE = "";
 
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState({});
-  const [userReg, setUserReg] = useState(INITIAL_USER_STATE);
+  const [username, setUsername] = useState("");
 
 
   // if (isLoading) {
@@ -44,11 +38,17 @@ function App() {
   // On intial page load retrieve token from local storage
   useEffect(()=> {
     const getUserToken = async () => {
-      const token = await ls.get('token') || {}
-      setToken(token);
+      setToken(await ls.get('token') || {}) 
     }
     getUserToken();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const getUserReg = async () => {
+      setUsername(await ls.get('username') || {})
+    }
+    getUserReg();
+  }, [] );
 
   // API Call to register user on completion of Sign Up Form
   // useEffect(() => {
@@ -64,13 +64,17 @@ function App() {
   // },[userReg])
 
   //
-  const registerUser = async (newUserInfo) => {
-    let results = await JoblyAPI.registerUser(newUserInfo);
-    setUserReg(newUserInfo);
-    console.log(userReg);
+  const registerUser = async (userInfo) => {
+
+    let results = await JoblyAPI.registerUser(userInfo);
     debugger;
-    setToken(results);
+    setUsername(userInfo.username);
+    console.log(username);
+    debugger;
+    setToken(token => ({...token, results}))
+    console.log(token);
     await ls.set('token', results.token);
+    await ls.set('username', userInfo.username)
     debugger;
   }
 

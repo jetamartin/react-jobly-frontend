@@ -1,0 +1,22 @@
+.JobCard {
+  max-height: 250px;
+  margin-bottom: 1rem;
+  border-radius: 0;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+}
+
+.JobCard-cardbody {
+  padding: 1.25rem;
+}
+.JobCard:hover {
+  box-shadow: 0 3px 6px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%);
+}
+
+
+
+
+.card-body button {
+  float: right;
+}
+
+

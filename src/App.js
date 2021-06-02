@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Switch, BrowserRouter, Route, Link } from "react-router-dom";
+import {Switch, BrowserRouter, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ls from 'local-storage';
-
 import JoblyAPI from './JoblyAPI'
 import NavBar from './NavBar';
 import Home from './Home'; 
@@ -16,26 +16,15 @@ import './App.css';
 
 function App() {
   const INITIAL_USER_STATE = "";
-
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState({});
   const [username, setUsername] = useState("");
-
-
+  const history = useHistory();
+  debugger;
   // if (isLoading) {
   //   return <p>Loading &hellip;</p>;
   // }
-
-  // Save login token in local storage anytime it is changed
-  // useEffect(()=> {
-  //   const updateLoginToken = async () => {
-  //     debugger;
-  //     await ls.set(token)
-  //   }
-  //   updateLoginToken()
-  // }, [token])
-
-  // On intial page load retrieve token from local storage
+   // On intial page load retrieve token from local storage
   useEffect(()=> {
     const getUserToken = async () => {
       setToken(await ls.get('token') || {}) 
@@ -45,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const getUserReg = async () => {
-      setUsername(await ls.get('username') || {})
+      setUsername(await ls.get('username') || "")
     }
     getUserReg();
   }, [] );
@@ -62,26 +51,29 @@ function App() {
   //   registerUser(userReg)
 
   // },[userReg])
-
   //
-  const registerUser = async (userInfo) => {
 
+  const logoutUser = async () => {
+    await ls.set('token', "");
+    await ls.set('username', "");
+    setUsername("");
+    setToken("");
+    history.push("/");
+  }
+
+  const registerUser = async (userInfo) => {
     let results = await JoblyAPI.registerUser(userInfo);
-    debugger;
     setUsername(userInfo.username);
-    console.log(username);
-    debugger;
-    setToken(token => ({...token, results}))
-    console.log(token);
+    setToken(token => ({token: results}) )
     await ls.set('token', results.token);
     await ls.set('username', userInfo.username)
-    debugger;
-  }
+    history.push("/");
+   }
 
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar />
+        <NavBar token={token} username={username} logoutUser={logoutUser}/>
         <main>
           <Switch>
             <Route exact path="/">

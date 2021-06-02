@@ -1,10 +1,11 @@
 import React, {useState} from 'react'; 
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
+import {useHistory} from 'react-router-dom'; 
 import "./SignUpForm.css";
 
 
-
 const SignUpForm = ({registerUser}) => {
+  const history = useHistory();
   const INITIAL_STATE = {
     username: "",
     password: "",
@@ -27,6 +28,7 @@ const SignUpForm = ({registerUser}) => {
     e.preventDefault(); 
     registerUser(formData);
     setFormData(INITIAL_STATE)
+    history.push('/');
   }
   return (
     <Container className="SignUpForm col-5 ">

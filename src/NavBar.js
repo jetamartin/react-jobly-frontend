@@ -1,9 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
+import Login from './Login';
+import Logout from './Logout';
 import "./NavBar.css";
 
-function NavBar() {
+function NavBar({username, token, logoutUser}) {
+ 
   return (
     <div>
       <Navbar >
@@ -20,12 +23,9 @@ function NavBar() {
           <NavItem>
             <NavLink to="/profile">Profile</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink to="/login">Login</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/signup">Sign Up</NavLink>
-          </NavItem>
+          {username ? (<Logout username={username} logoutUser={logoutUser}/>)
+           : (<Login />)
+          }
         </Nav>
       </Navbar>
     </div>

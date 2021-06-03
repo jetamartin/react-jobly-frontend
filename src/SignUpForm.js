@@ -24,11 +24,10 @@ const SignUpForm = ({registerUser}) => {
   }
   
   const handleSubmit = (e) => {
-    console.log(formData)
     e.preventDefault(); 
     registerUser(formData);
     setFormData(INITIAL_STATE)
-    history.push('/');
+    history.push('/companies');
   }
   return (
     <Container className="SignUpForm col-5 ">

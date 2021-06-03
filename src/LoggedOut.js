@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
 
-const Login = () => {
+const LoggedOut = () => {
   return (
     <>
       <NavItem>
@@ -14,4 +14,4 @@ const Login = () => {
   </>
   )
 }
-export default Login; 
+export default LoggedOut; 

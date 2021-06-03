@@ -1,10 +1,12 @@
 import React, {useState} from 'react'; 
+import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import "./LoginForm.css";
 
 const LoginForm = ({loginUser}) => {
+  const history = useHistory();
   const initialState = {
-    userName: "",
+    username: "",
     password: ""
   }
   const [formData, setFormData] = useState(initialState);
@@ -18,10 +20,9 @@ const LoginForm = ({loginUser}) => {
   const handleSubmit = e => {
     e.preventDefault();
     debugger;
-    console.log(formData);
-    alert("Login Form submitted");
-    // loginUser(formData)
-    setFormData(initialState)
+    loginUser(formData);
+    setFormData(initialState);
+    history.push("/companies");
   }
 
   return (
@@ -34,9 +35,9 @@ const LoginForm = ({loginUser}) => {
               <Label htmlFor="userName">User Name</Label>
               <Input 
                 type="text"
-                name="userName"
-                id="userName"
-                value={formData.userName}
+                name="username"
+                id="username"
+                value={formData.username}
                 onChange={handleChange}
               />
             </FormGroup> 

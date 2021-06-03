@@ -15,12 +15,10 @@ import NotFound from './NotFound';
 import './App.css';
 
 function App() {
-  const INITIAL_USER_STATE = "";
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState({});
   const [username, setUsername] = useState("");
-  const history = useHistory();
-  debugger;
+  
   // if (isLoading) {
   //   return <p>Loading &hellip;</p>;
   // }
@@ -53,12 +51,20 @@ function App() {
   // },[userReg])
   //
 
+  const loginUser = async (userCredentials) => {
+    let results = await JoblyAPI.loginUser(userCredentials)
+    setToken(token => ({token: results}))
+    setUsername(userCredentials.username);
+    await ls.set('token', results.token);
+    await ls.set('username', userCredentials.username); 
+  }
+
   const logoutUser = async () => {
     await ls.set('token', "");
     await ls.set('username', "");
     setUsername("");
     setToken("");
-    history.push("/");
+
   }
 
   const registerUser = async (userInfo) => {
@@ -67,7 +73,6 @@ function App() {
     setToken(token => ({token: results}) )
     await ls.set('token', results.token);
     await ls.set('username', userInfo.username)
-    history.push("/");
    }
 
   return (
@@ -89,7 +94,7 @@ function App() {
               <JobList  />
             </Route>
             <Route exact path="/login">
-              <LoginForm />
+              <LoginForm loginUser={loginUser} />
             </Route>
             <Route exact path="/signup" >
               <SignUpForm registerUser={registerUser} />

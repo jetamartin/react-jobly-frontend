@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
-import Login from './Login';
-import Logout from './Logout';
+import Login from './LoggedOut';
+import LoggedIn from './LoggedIn';
 import "./NavBar.css";
 
 function NavBar({username, token, logoutUser}) {
@@ -14,7 +14,7 @@ function NavBar({username, token, logoutUser}) {
           Jobly
         </NavLink>
         <Nav className="ml-auto">
-          <NavItem>
+          {/* <NavItem>
             <NavLink to="/companies">Companies</NavLink>
           </NavItem>
           <NavItem>
@@ -22,8 +22,8 @@ function NavBar({username, token, logoutUser}) {
           </NavItem>
           <NavItem>
             <NavLink to="/profile">Profile</NavLink>
-          </NavItem>
-          {username ? (<Logout username={username} logoutUser={logoutUser}/>)
+          </NavItem> */}
+          {username ? (<LoggedIn username={username} logoutUser={logoutUser}/>)
            : (<Login />)
           }
         </Nav>

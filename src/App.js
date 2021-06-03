@@ -15,9 +15,11 @@ import NotFound from './NotFound';
 import './App.css';
 
 function App() {
+
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState({});
   const [username, setUsername] = useState("");
+  const [userRegInfo, setUserRegInfo] = useState({})
   
   // if (isLoading) {
   //   return <p>Loading &hellip;</p>;
@@ -31,11 +33,29 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const getUserReg = async () => {
+    const getUserName= async () => {
       setUsername(await ls.get('username') || "")
     }
-    getUserReg();
+    getUserName();
   }, [] );
+
+  
+  // useEffect((username) => {
+  //   debugger;
+  //   if (username && userRegInfo && Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
+   
+  //     const getUserRegInfo = async (username) => {
+  //       debugger;
+  //       if (localStorage.getItem('token')) {
+  //         let results = await JoblyAPI.getUserProfile(username);
+  //         debugger;
+  //       }
+  //       // setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')) || {})
+  //     }
+  //     getUserRegInfo();
+  //   }
+  // },[] );
+
 
   // API Call to register user on completion of Sign Up Form
   // useEffect(() => {
@@ -60,19 +80,25 @@ function App() {
   }
 
   const logoutUser = async () => {
-    await ls.set('token', "");
-    await ls.set('username', "");
+    await localStorage.removeItem('token')
+    await localStorage.removeItem('username')
+    // await ls.set('token', "");
+    // await ls.set('username', "");
+    await localStorage.removeItem("userRegInfo")
     setUsername("");
     setToken("");
-
   }
 
   const registerUser = async (userInfo) => {
+    debugger;
     let results = await JoblyAPI.registerUser(userInfo);
+    setUserRegInfo(userRegInfo => ({...userRegInfo, ...userInfo}))
+    debugger;
     setUsername(userInfo.username);
     setToken(token => ({token: results}) )
-    await ls.set('token', results.token);
-    await ls.set('username', userInfo.username)
+    await localStorage.setItem('token', results.token);
+    await localStorage.setItem('username', userInfo.username)
+    await localStorage.setItem('userRegInfo', JSON.stringify(userInfo));
    }
 
   return (
@@ -82,7 +108,7 @@ function App() {
         <main>
           <Switch>
             <Route exact path="/">
-              <Home  />
+              <Home username={username} />
             </Route>
             <Route exact path="/companies">
               <CompanyList />
@@ -100,7 +126,7 @@ function App() {
               <SignUpForm registerUser={registerUser} />
             </Route>
             <Route exact path ="/profile">
-              <ProfileForm/>
+              <ProfileForm userRegInfo={userRegInfo}/>
             </Route>
             <Route>
               <NotFound />

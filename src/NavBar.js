@@ -14,7 +14,7 @@ function NavBar({username, token, logoutUser}) {
           Jobly
         </NavLink>
         <Nav className="ml-auto">
-          {username ? (<LoggedIn username={username} logoutUser={logoutUser}/>)
+          {username ? (<LoggedIn username={username} token={token} logoutUser={logoutUser}/>)
            : (<Login />)
           }
         </Nav>

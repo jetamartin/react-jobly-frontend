@@ -26,6 +26,7 @@ function App() {
   // }
    // On intial page load retrieve token from local storage
   useEffect(()=> {
+    debugger;
     const getUserToken = async () => {
       setToken(await ls.get('token') || {}) 
     }
@@ -39,22 +40,28 @@ function App() {
     getUserName();
   }, [] );
 
+  useEffect(()  => {
+    const getUserInfo = async () => {
+      setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')));
+    }
+  })
+
   
-  // useEffect((username) => {
+  // useEffect(() => {
   //   debugger;
-  //   if (username && userRegInfo && Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
-   
-  //     const getUserRegInfo = async (username) => {
+  //   // if (username && userRegInfo && Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
+  //   if (username) {
+  //     const getUserRegInfo = async (username, token) => {
   //       debugger;
   //       if (localStorage.getItem('token')) {
-  //         let results = await JoblyAPI.getUserProfile(username);
+  //         let results = await JoblyAPI.getUserProfile(username, token);
   //         debugger;
   //       }
   //       // setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')) || {})
   //     }
   //     getUserRegInfo();
   //   }
-  // },[] );
+  // },[username, token] );
 
 
   // API Call to register user on completion of Sign Up Form
@@ -72,6 +79,7 @@ function App() {
   //
 
   const loginUser = async (userCredentials) => {
+
     let results = await JoblyAPI.loginUser(userCredentials)
     setToken(token => ({token: results}))
     setUsername(userCredentials.username);
@@ -82,15 +90,12 @@ function App() {
   const logoutUser = async () => {
     await localStorage.removeItem('token')
     await localStorage.removeItem('username')
-    // await ls.set('token', "");
-    // await ls.set('username', "");
     await localStorage.removeItem("userRegInfo")
     setUsername("");
     setToken("");
   }
 
   const registerUser = async (userInfo) => {
-    debugger;
     let results = await JoblyAPI.registerUser(userInfo);
     setUserRegInfo(userRegInfo => ({...userRegInfo, ...userInfo}))
     debugger;
@@ -100,6 +105,17 @@ function App() {
     await localStorage.setItem('username', userInfo.username)
     await localStorage.setItem('userRegInfo', JSON.stringify(userInfo));
    }
+
+   const getUserInfo = async (username) => {
+     let results = await JoblyAPI.getUserProfile(username, token);
+     debugger;
+   }
+
+   const updateUserInfo = async (username, userProfileInfo ) => {
+      debugger;
+      return await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
+    }
+
 
   return (
     <div className="App">
@@ -126,7 +142,7 @@ function App() {
               <SignUpForm registerUser={registerUser} />
             </Route>
             <Route exact path ="/profile">
-              <ProfileForm userRegInfo={userRegInfo}/>
+              <ProfileForm userRegInfo={userRegInfo} updateUserInfo={updateUserInfo} />
             </Route>
             <Route>
               <NotFound />

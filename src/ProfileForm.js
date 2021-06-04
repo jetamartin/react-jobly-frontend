@@ -2,11 +2,31 @@ import React, {useState} from 'react';
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import "./ProfileForm.css";
 
-const ProfileForm = ({userRegInfo}) => {
+// Need to get current user profile info if not stored
+//  Most profile info available via user GET /users/:username
+//  Maybe initiate call to get profile info when user clicks on NavBar.
+//  Maybe we need a Profile component to hold that logic.   
+// 
+// How to confirm that password matches. Store in local store? State?
+//  -- Need it to compare to change profile? 
+
+// If password check is successful then need to issue a PATCH /users/:username
+//  results of that need api need to be available in the form
+// so that form values can be updated to reflect the changes
+// and a success message needs to be issued on Profile form.
+// No redirect required after successful profile.
+//  
+
+const ProfileForm = ({userRegInfo, updateUserInfo}) => {
   debugger;
+  
   const INITIAL_STATE = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    confirmPassword: ""
   }
-  const [ formData, setFormData ] = useState({})
+  const [ formData, setFormData ] = useState(userRegInfo)
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -16,10 +36,14 @@ const ProfileForm = ({userRegInfo}) => {
     }))
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
+    debugger;
     e.preventDefault();
-    alert('Profile form submitted')
-    
+    console.log(formData);
+    let user = await updateUserInfo(userRegInfo.username, formData);
+    debugger;
+    setFormData(formData => ({...formData, ...user }))
+
   }
  
 
@@ -29,12 +53,10 @@ const ProfileForm = ({userRegInfo}) => {
       <Card>
         <CardBody>
           <Form onSubmit={handleSubmit}>
+
             <FormGroup>
-              <Label htmlFor="userName">User Name</Label>
-              <Input 
-                defaultValue={userRegInfo.username}
-                readOnly
-              />
+              <Label htmlFor="username">User Name</Label>
+              <p className="form-control-plaintext">{userRegInfo.username}</p>
             </FormGroup>
             <FormGroup>
               <Label htmlFor="firstName">First Name</Label>
@@ -42,7 +64,7 @@ const ProfileForm = ({userRegInfo}) => {
                 type="text" 
                 name="firstName" 
                 id="firstName" 
-                defaultValue={userRegInfo.firstName}
+ 
                 value={formData.firstName}
                 onChange={handleChange}
               />
@@ -53,7 +75,7 @@ const ProfileForm = ({userRegInfo}) => {
                 type="text"
                 name="lastName"
                 id="lastName"
-                defaultValue={userRegInfo.lastName}
+ 
                 value={formData.lastName}
                 onChange={handleChange}
               />
@@ -64,18 +86,18 @@ const ProfileForm = ({userRegInfo}) => {
                 type="email" 
                 name="email"
                 id="email"
-                defaultValue={userRegInfo.email}
+ 
                 value={formData.email}
                 onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
-              <Label htmlFor="password">Confirm Password to Make Changes</Label>
+              <Label htmlFor="confirmPassword">Confirm Password to Make Changes</Label>
               <Input 
                 type="password" 
                 name="password" 
-                id="password"
-                value={formData.password}
+                id="comfirmPassword"
+                value={formData.confirmPassword}
                 onChange={handleChange} 
               />
             </FormGroup>

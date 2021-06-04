@@ -54,9 +54,41 @@ class JoblyApi {
     return res; 
   }
 
-  static async getUserProfile(username) {
-    let res = await this.request('/users/username')
-    return res; 
+  static async request1(endpoint, data = {}, method = "get", token="") {
+    console.debug("API Call:", endpoint, data, method, token);
+
+    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
+    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
+    const url = `${BASE_URL}/${endpoint}`;
+    const headers = { Authorization: `Bearer ${token}` };
+    const params = (method === "get")
+        ? data
+        : {};
+
+    try {
+      return (await axios({ url, method, data, params, headers })).data;
+    } catch (err) {
+      debugger;
+      console.error("API Error:", err.response);
+      let message = err.response.data.error.message;
+      throw Array.isArray(message) ? message : [message];
+    }
+  }
+
+  static async getUserProfile(username, token) {
+    debugger;
+    let res = await this.request1(`users/${username}`, {}, 'get', token.token.token);
+    // let res = await this.request1(`users/${username}`, {}, 'get', token);
+
+    debugger;
+    return res.user;
+  }
+
+  static async updateUserProfile(username, token, userProfileInfo) {
+    debugger; 
+    let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
+    debugger;
+    return res.user; 
   }
   // obviously, you'll add a lot here ...
 }

@@ -17,7 +17,7 @@ import './App.css';
 function App() {
 
   const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useState({});
+  const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   const [userRegInfo, setUserRegInfo] = useState({})
   
@@ -26,62 +26,38 @@ function App() {
   // }
    // On intial page load retrieve token from local storage
   useEffect(()=> {
-    debugger;
-    const getUserToken = async () => {
+      const getUserToken = async () => {
       setToken(await ls.get('token') || {}) 
     }
     getUserToken();
+  // }, [token]);
   }, []);
+
+
 
   useEffect(() => {
     const getUserName= async () => {
       setUsername(await ls.get('username') || "")
     }
     getUserName();
+  // }, [username] );
   }, [] );
-
-  useEffect(()  => {
-    const getUserInfo = async () => {
-      setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')));
-    }
-  })
-
   
-  // useEffect(() => {
-  //   debugger;
-  //   // if (username && userRegInfo && Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
-  //   if (username) {
-  //     const getUserRegInfo = async (username, token) => {
-  //       debugger;
-  //       if (localStorage.getItem('token')) {
-  //         let results = await JoblyAPI.getUserProfile(username, token);
-  //         debugger;
-  //       }
-  //       // setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')) || {})
-  //     }
-  //     getUserRegInfo();
-  //   }
-  // },[username, token] );
 
-
-  // API Call to register user on completion of Sign Up Form
-  // useEffect(() => {
-  //   const registerUser = async (userReg) => {
-  //     debugger;
-  //     let results = await JoblyAPI.registerUser(userReg);
-  //     setToken(results);
-  //     await ls.set('token', results.token);
-  //     debugger;
-  //   }
-  //   registerUser(userReg)
-
-  // },[userReg])
   //
-
+  useEffect(()  => {
+    const updateUserRegFromLS = async () => {
+      setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')) || {});
+    }
+    updateUserRegFromLS()
+  }, [])
+  
   const loginUser = async (userCredentials) => {
 
     let results = await JoblyAPI.loginUser(userCredentials)
-    setToken(token => ({token: results}))
+    // setToken(token => ({token: results}))
+    setToken(results.token);
+    debugger;
     setUsername(userCredentials.username);
     await ls.set('token', results.token);
     await ls.set('username', userCredentials.username); 
@@ -93,27 +69,37 @@ function App() {
     await localStorage.removeItem("userRegInfo")
     setUsername("");
     setToken("");
+    setUserRegInfo({})
   }
 
   const registerUser = async (userInfo) => {
     let results = await JoblyAPI.registerUser(userInfo);
+    // debugger;
     setUserRegInfo(userRegInfo => ({...userRegInfo, ...userInfo}))
     debugger;
     setUsername(userInfo.username);
-    setToken(token => ({token: results}) )
+    // debugger;
+    // setToken(token => ({token: results}) )
+    setToken(results.token)
     await localStorage.setItem('token', results.token);
     await localStorage.setItem('username', userInfo.username)
     await localStorage.setItem('userRegInfo', JSON.stringify(userInfo));
    }
 
-   const getUserInfo = async (username) => {
+   const getUserRegInfo = async (username) => {
      let results = await JoblyAPI.getUserProfile(username, token);
      debugger;
+     setUserRegInfo(userRegInfo => ({...userRegInfo, ...results}))
+     localStorage.setItem('userRegInfo', JSON.stringify(results));
+     return results;
    }
 
-   const updateUserInfo = async (username, userProfileInfo ) => {
+   const updateUserRegInfo = async (username, userProfileInfo ) => {
       debugger;
-      return await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
+      let user = await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
+      setUserRegInfo(userRegInfo => ({...userRegInfo, ...user}))
+      localStorage.setItem('userRegInfo', JSON.stringify(user));
+      return user; 
     }
 
 
@@ -142,7 +128,7 @@ function App() {
               <SignUpForm registerUser={registerUser} />
             </Route>
             <Route exact path ="/profile">
-              <ProfileForm userRegInfo={userRegInfo} updateUserInfo={updateUserInfo} />
+              <ProfileForm userRegInfo={userRegInfo} token={token} username={username} updateUserRegInfo={updateUserRegInfo} getUserRegInfo={getUserRegInfo} />
             </Route>
             <Route>
               <NotFound />

@@ -7,7 +7,7 @@ import JoblyAPI from './JoblyAPI';
 const LoggedIn = ({username, token, logoutUser}) => {
   const history = useHistory();
   const logoutClicked = (e) => {
-    logoutUser(e)
+    logoutUser();
     history.push("/");
   }
 
@@ -25,7 +25,9 @@ const LoggedIn = ({username, token, logoutUser}) => {
         <NavLink to="/jobs">Jobs</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink onClick={getUserProfile} to="/profile">Profile</NavLink>
+        {/* <NavLink onClick={getUserProfile} to="/profile">Profile</NavLink> */}
+        <NavLink to="/profile">Profile</NavLink>
+
 
       </NavItem>
       <NavItem>

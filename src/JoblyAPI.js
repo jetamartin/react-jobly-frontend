@@ -77,9 +77,7 @@ class JoblyApi {
 
   static async getUserProfile(username, token) {
     debugger;
-    let res = await this.request1(`users/${username}`, {}, 'get', token.token.token);
-    // let res = await this.request1(`users/${username}`, {}, 'get', token);
-
+    let res = await this.request1(`users/${username}`, {}, 'get', token);
     debugger;
     return res.user;
   }

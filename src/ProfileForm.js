@@ -1,8 +1,8 @@
-import React, {useState} from 'react'; 
+import React, {useEffect, useState} from 'react'; 
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import "./ProfileForm.css";
 
-// Need to get current user profile info if not stored
+// Need to get current user profile info if not stored as state or in local storage
 //  Most profile info available via user GET /users/:username
 //  Maybe initiate call to get profile info when user clicks on NavBar.
 //  Maybe we need a Profile component to hold that logic.   
@@ -17,16 +17,53 @@ import "./ProfileForm.css";
 // No redirect required after successful profile.
 //  
 
-const ProfileForm = ({userRegInfo, updateUserInfo}) => {
-  debugger;
+const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, username}) => {
+
   
   const INITIAL_STATE = {
     firstName: "",
     lastName: "",
     email: "",
-    confirmPassword: ""
+    
   }
-  const [ formData, setFormData ] = useState(userRegInfo)
+  const [ formData, setFormData ] = useState(INITIAL_STATE);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const isEmptyObject = (obj) => {
+    if (Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
+       return true;
+    } else {
+      return false
+    }
+  }
+
+  // Preload ProfileForm 
+  useEffect(() => {
+    debugger;
+    // if no userRegInfo then request from server
+    userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
+
+    if (userRegInfo === null || isEmptyObject(userRegInfo)) {
+      const getUserInfo = async () => {
+        debugger;
+        // let results = await JoblyAPI.getUserProfile(username, token);
+          let results = await getUserRegInfo(username);
+          debugger;
+          setFormData(formData => ({...formData, ...results}))
+          // localStorage.setItem('userRegInfo', JSON.stringify(results))
+          debugger;
+          setIsLoading(false)
+        }
+        getUserInfo();
+      } else {
+        debugger;
+        setFormData(formData => ({...formData, ...userRegInfo}))
+        setIsLoading(false)
+      }
+
+  }, [username, token])
+ 
+
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -39,11 +76,15 @@ const ProfileForm = ({userRegInfo, updateUserInfo}) => {
   const handleSubmit = async (e) => {
     debugger;
     e.preventDefault();
-    console.log(formData);
-    let user = await updateUserInfo(userRegInfo.username, formData);
+    const {firstName, lastName, email} = formData
+    let user = await updateUserRegInfo(username, {firstName, lastName, email} );
     debugger;
-    setFormData(formData => ({...formData, ...user }))
+    // localStorage.setItem('userRegInfo', JSON.stringify(user));
+    setFormData(formData => ({...formData, ...firstName, lastName, email }));
+  }
 
+  if (isLoading) {
+    return <p>Loading &hellip;</p>;
   }
  
 
@@ -56,7 +97,7 @@ const ProfileForm = ({userRegInfo, updateUserInfo}) => {
 
             <FormGroup>
               <Label htmlFor="username">User Name</Label>
-              <p className="form-control-plaintext">{userRegInfo.username}</p>
+              <p className="form-control-plaintext">{username}</p>
             </FormGroup>
             <FormGroup>
               <Label htmlFor="firstName">First Name</Label>

@@ -20,6 +20,8 @@ function App() {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   const [userRegInfo, setUserRegInfo] = useState({})
+  const [companies, setCompanies] = useState([]);
+  const [jobs, setJobs] = useState([]);
   
   // if (isLoading) {
   //   return <p>Loading &hellip;</p>;
@@ -30,8 +32,7 @@ function App() {
       setToken(await ls.get('token') || {}) 
     }
     getUserToken();
-  // }, [token]);
-  }, []);
+    }, []);
 
 
 
@@ -40,17 +41,33 @@ function App() {
       setUsername(await ls.get('username') || "")
     }
     getUserName();
-  // }, [username] );
   }, [] );
   
 
-  //
+  // 
   useEffect(()  => {
     const updateUserRegFromLS = async () => {
       setUserRegInfo(await JSON.parse(localStorage.getItem('userRegInfo')) || {});
     }
     updateUserRegFromLS()
   }, [])
+
+  useEffect(() => {
+    const getListOfCompanies = async () => {
+      let companies = await JoblyAPI.getCompanies();
+      setCompanies(companies)
+      debugger;
+    }
+    getListOfCompanies()
+  }, [])
+
+  useEffect(() => {
+    const getListOfJobs = async () => {
+      let jobs = await JoblyAPI.getAllJobs();
+      setJobs(jobs)
+    }
+    getListOfJobs();
+  })
   
   const loginUser = async (userCredentials) => {
 
@@ -102,6 +119,17 @@ function App() {
       return user; 
     }
 
+    const getCompanies = async (filter) => {
+      let companies = await JoblyAPI.getCompanies(filter);
+      return companies;
+    }
+
+    const getCompanyJobs = async (handle) => {
+      let companyJobInfo = await JoblyAPI.getCompany(handle);
+      debugger;
+      return companyJobInfo; 
+    }
+
 
   return (
     <div className="App">
@@ -113,13 +141,13 @@ function App() {
               <Home username={username} />
             </Route>
             <Route exact path="/companies">
-              <CompanyList />
+              <CompanyList companies={companies} />
             </Route>
             <Route exact path="/companies/:handle">
-              <CompanyDetail />
+              <CompanyDetail getCompanyJobs={getCompanyJobs}/>
             </Route>
             <Route exact path="/jobs">
-              <JobList  />
+              <JobList jobs={jobs}  />
             </Route>
             <Route exact path="/login">
               <LoginForm loginUser={loginUser} />

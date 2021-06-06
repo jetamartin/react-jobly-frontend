@@ -6,18 +6,18 @@ import {
 
 import './JobCard.css';
 
-const JobCard = () => {
+const JobCard = ({job}) => {
   return (
 
       <Card className = "JobCard">
         <CardBody>
-          <CardTitle tag="h5">Accountant, chartered certified</CardTitle>
-          <CardText>Stone-Steward</CardText>
+          <CardTitle tag="h5">{job.title}</CardTitle>
+          <CardText>{job.title}</CardText>
           <div>
-            <small>Salary: 175,000</small>
+            <small>Salary {job.salary}</small>
           </div>
           <div>
-            <small>Equity: 0</small>
+            <small>Equity: {job.equity}</small>
           </div>
           <Button color="danger">Apply</Button>
         </CardBody>

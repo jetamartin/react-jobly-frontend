@@ -7,30 +7,37 @@ import {
 import { Container, Row, Col } from 'reactstrap';
 import './CompanyCard.css';
 
-const CompanyCard = () => {
-  return (
 
-      <Card className = "CompanyCard">
-      <Link to="/companies/anderson-arias-morrow" >
+const CompanyCard = ({company}) => {
+
+  // useEffect(() => {
+  //   const getCompanyJobData = async () => {
+  //     let result = await getCompanyJobs(handle);
+  //     debugger;
+  //     setIsLoading(false)
+  //     return results;
+  //   }
+  //   getCompanyJobData()
+  // },[])
+  
+ 
+  return (
+    <Card className = "CompanyCard">
+      <Link to={`/companies/${company.handle}`}>
         <CardBody className="CompanyCard-cardbody">
           <Row className="CompanyCard-header">
             <Col sm={8}>
-                <CardTitle tag="h5">Arnold, Berger and Townsend</CardTitle>
-             </Col>
-            <Col className="CompanyCard-logo"  sm={4}>
-              <img src="../logos/company-logo-360-360.png" />
+                <CardTitle tag="h5">{company.name}</CardTitle>
             </Col>
-
+            <Col className="CompanyCard-logo"  sm={4}>
+              <img src={company.logoUrl} />
+            </Col>
           </Row>
-
-          <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
- 
-        </CardBody>
-
-        </Link>
-      </Card>
+          <CardText>{company.description}</CardText>
+          </CardBody>
+      </Link>
+    </Card>
   )
-
 }
 
 export default CompanyCard; 

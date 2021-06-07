@@ -20,7 +20,7 @@ function App() {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   const [userRegInfo, setUserRegInfo] = useState({})
-  const [companies, setCompanies] = useState([]);
+  // const [companies, setCompanies] = useState([]);
   const [jobs, setJobs] = useState([]);
   
   // if (isLoading) {
@@ -52,14 +52,14 @@ function App() {
     updateUserRegFromLS()
   }, [])
 
-  useEffect(() => {
-    const getListOfCompanies = async () => {
-      let companies = await JoblyAPI.getCompanies();
-      setCompanies(companies)
-      debugger;
-    }
-    getListOfCompanies()
-  }, [])
+  // useEffect(() => {
+  //   const getListOfCompanies = async () => {
+  //     let companies = await JoblyAPI.getCompanies();
+  //     setCompanies(companies)
+  //     debugger;
+  //   }
+  //   getListOfCompanies()
+  // }, [])
 
   useEffect(() => {
     const getListOfJobs = async () => {
@@ -67,7 +67,7 @@ function App() {
       setJobs(jobs)
     }
     getListOfJobs();
-  })
+  }, [])
   
   const loginUser = async (userCredentials) => {
 

@@ -78,7 +78,6 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
     e.preventDefault();
     const {firstName, lastName, email} = formData
     let user = await updateUserRegInfo(username, {firstName, lastName, email} );
-    debugger;
     // localStorage.setItem('userRegInfo', JSON.stringify(user));
     setFormData(formData => ({...formData, ...firstName, lastName, email }));
   }

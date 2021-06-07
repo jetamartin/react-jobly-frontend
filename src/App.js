@@ -119,14 +119,14 @@ function App() {
       return user; 
     }
 
-    const getCompanies = async (filter) => {
-      let companies = await JoblyAPI.getCompanies(filter);
-      return companies;
-    }
+    // const getCompanies = async (filter) => {
+    //   let companies = await JoblyAPI.getCompanies(filter);
+    //   return companies;
+    // }
 
     const getCompanyJobs = async (handle) => {
       let companyJobInfo = await JoblyAPI.getCompany(handle);
-      debugger;
+      // debugger;
       return companyJobInfo; 
     }
 
@@ -141,7 +141,9 @@ function App() {
               <Home username={username} />
             </Route>
             <Route exact path="/companies">
-              <CompanyList companies={companies} />
+              {/* <CompanyList companies={companies} /> */}
+              <CompanyList />
+
             </Route>
             <Route exact path="/companies/:handle">
               <CompanyDetail getCompanyJobs={getCompanyJobs}/>

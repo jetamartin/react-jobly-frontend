@@ -45,11 +45,11 @@ class JoblyApi {
     return res.company;
   }
 
-  static async getCompanies(filter) {
+  static async getCompanies(name) {
     debugger;
     let res
-    if (filter) {
-      res = await this.request(`companies`, filter);
+    if (name) {
+      res = await this.request(`companies`, {name});
     } else {
       res = await this.request(`companies`);
     }

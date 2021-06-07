@@ -10,23 +10,21 @@ const CompanyList = () => {
 
   const [companies, setCompanies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [searchFilter, setSearchFilter] = useState({})
 
   useEffect(() => {
     const getCompanies = async () => {
       debugger;
-      let companyList = await JoblyAPI.getCompanies(searchFilter);
+      let companyList = await JoblyAPI.getCompanies();
       debugger;
-      setCompanies(companies => (companyList))
+      setCompanies(companyList);
       setIsLoading(false)
     }
     getCompanies()
-  }, [searchFilter])
+  }, [])
 
-  const searchCompanies = async (filter) => {
-    let companyList = await JoblyApi.getCompanies(filter); 
-    debugger;
-    setSearchFilter(search => ({...search, ...filter}))
+  const searchCompanies = async (name) => {
+    let companyList = await JoblyApi.getCompanies(name); 
+    setCompanies(companyList);
     setIsLoading(false);
   }
 

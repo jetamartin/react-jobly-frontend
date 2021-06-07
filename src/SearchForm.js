@@ -15,11 +15,9 @@ const SearchForm = ({searchCompanies}) => {
 
   const submitForm = async (e) => {
     e.preventDefault();
+    await searchCompanies(formData.name); 
     debugger;
-    console.log(formData);
-    await searchCompanies(formData); 
-    debugger;
-    setFormData("");
+    setFormData({});
   }
 
   return (

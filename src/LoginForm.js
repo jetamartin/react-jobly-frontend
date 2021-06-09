@@ -18,12 +18,16 @@ const LoginForm = ({loginUser}) => {
       [name] : value
     }))
   }
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     debugger;
-    loginUser(formData);
-    setFormData(initialState);
-    history.push("/companies");
+    try {
+      await loginUser(formData);
+      setFormData(initialState);
+      history.push("/companies");
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -40,6 +44,7 @@ const LoginForm = ({loginUser}) => {
                 id="username"
                 value={formData.username}
                 onChange={handleChange}
+                required
               />
             </FormGroup> 
             <FormGroup>
@@ -49,7 +54,9 @@ const LoginForm = ({loginUser}) => {
                 name="password" 
                 id="password"
                 value={formData.password}
-                onChange={handleChange}  
+                onChange={handleChange}
+                required
+                minLength="5"  
               />
             </FormGroup>
             <Button color="primary">Submit</Button>

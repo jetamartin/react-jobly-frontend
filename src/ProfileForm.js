@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'; 
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import "./ProfileForm.css";
+import JoblyAPI from './JoblyAPI';
 
 // Need to get current user profile info if not stored as state or in local storage
 //  Most profile info available via user GET /users/:username
@@ -17,17 +18,18 @@ import "./ProfileForm.css";
 // No redirect required after successful profile.
 //  
 
-const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, username}) => {
-
-  
+const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username}) => {
+ 
   const INITIAL_STATE = {
     firstName: "",
     lastName: "",
     email: "",
     
   }
+  
   const [ formData, setFormData ] = useState(INITIAL_STATE);
   const [isLoading, setIsLoading] = useState(true);
+  const [ profileFormMsg, setProfileFormMsg] = useState({});
 
   const isEmptyObject = (obj) => {
     if (Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
@@ -39,24 +41,26 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
 
   // Preload ProfileForm 
   useEffect(() => {
-    debugger;
     // if no userRegInfo then request from server
     userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
 
     if (userRegInfo === null || isEmptyObject(userRegInfo)) {
       const getUserInfo = async () => {
-        debugger;
-        // let results = await JoblyAPI.getUserProfile(username, token);
-          let results = await getUserRegInfo(username);
-          debugger;
-          setFormData(formData => ({...formData, ...results}))
-          // localStorage.setItem('userRegInfo', JSON.stringify(results))
-          debugger;
-          setIsLoading(false)
+        // debugger;
+          try {
+            let results = await JoblyAPI.getUserProfile(username, token);
+            // let results = await getUserRegInfo(username);
+            debugger;
+            setFormData(formData => ({...formData, ...results}))
+            setIsLoading(false)
+          } catch (err) {
+            debugger;
+            console.log(err)
+            setProfileFormMsg({"error": err[0]});
+          }
         }
         getUserInfo();
       } else {
-        debugger;
         setFormData(formData => ({...formData, ...userRegInfo}))
         setIsLoading(false)
       }
@@ -76,10 +80,19 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
   const handleSubmit = async (e) => {
     debugger;
     e.preventDefault();
-    const {firstName, lastName, email} = formData
-    let user = await updateUserRegInfo(username, {firstName, lastName, email} );
-    // localStorage.setItem('userRegInfo', JSON.stringify(user));
-    setFormData(formData => ({...formData, ...firstName, lastName, email }));
+    const {firstName, lastName, email, password} = formData;
+    debugger;
+    try {
+      await loginUser({username, password});
+      await updateUserRegInfo(username, {firstName, lastName, email} );
+      setFormData(formData => ({...formData, ...firstName, lastName, email }));
+      debugger;
+      setProfileFormMsg({status: "success", msg: "Profile was successfully changed"});
+    } catch (err) {
+      debugger;
+      console.log(err)
+      setProfileFormMsg({status: "error", msg: err[0]})
+    }
   }
 
   if (isLoading) {
@@ -115,7 +128,6 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
                 type="text"
                 name="lastName"
                 id="lastName"
- 
                 value={formData.lastName}
                 onChange={handleChange}
               />
@@ -126,7 +138,6 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
                 type="email" 
                 name="email"
                 id="email"
- 
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -138,9 +149,17 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, getUserRegInfo, use
                 name="password" 
                 id="comfirmPassword"
                 value={formData.confirmPassword}
-                onChange={handleChange} 
+                onChange={handleChange}
+                required
+                minLength="5" 
               />
             </FormGroup>
+            {/* {Object.keys(profileFormMsg).length !== 0 ?  */}
+            {isEmptyObject(profileFormMsg) ? 
+              <div className={`ProfileForm-messages ${profileFormMsg.status === "success" ? "successMsg" : "errorMsg"}`}>
+                {profileFormMsg.msg}
+              </div>
+            : ""}
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>

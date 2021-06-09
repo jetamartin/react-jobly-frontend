@@ -3,18 +3,24 @@ import { useParams} from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import './CompanyDetail.css';
 import JobCard from './JobCard';
+import JoblyAPI from './JoblyAPI';
 
-const CompanyDetail = ({getCompanyJobs}) => {
+const CompanyDetail = () => {
   const [isLoading, setIsLoading] = useState(true)
   const {handle} = useParams();
   const [companyJobData, setCompanyJobData ] = useState({})
   useEffect(() => {
     const getCompanyJobData = async () => {
-      let results = await getCompanyJobs(handle);
-      debugger;
-      setCompanyJobData(companyJobData => ({...companyJobData, ...results}));
-      setIsLoading(false)
-  
+      try {
+        let companyJobInfo = await JoblyAPI.getCompany(handle);
+        debugger;
+        setCompanyJobData(companyJobData => ({...companyJobData, ...companyJobInfo}));
+        setIsLoading(false)
+      } catch (err) {
+        debugger;
+        // Display error information
+      }
+
     }
     getCompanyJobData()
   },[])

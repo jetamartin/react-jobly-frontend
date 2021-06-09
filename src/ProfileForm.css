@@ -3,6 +3,22 @@
   margin-bottom: 4rem;
 }
 
+.ProfileForm-messages {
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: .5rem;
+  border-radius: 5px;
+}
+
+.successMsg {
+  background-color: lightgreen;
+}
+
+.errorMsg {
+  background-color: lightpink;
+}
+
 .form-group {
   margin-bottom: 1rem;
 }
@@ -10,3 +26,4 @@
   font-weight: bold;
   margin-bottom: .5rem;
 }
+

@@ -9,7 +9,7 @@ import './JobCard.css';
 const JobCard = ({job}) => {
   return (
 
-      <Card className = "JobCard">
+      <Card className = "JobCard" key="job.id">
         <CardBody>
           <CardTitle tag="h5">{job.title}</CardTitle>
           <CardText>{job.title}</CardText>

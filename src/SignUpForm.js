@@ -1,5 +1,5 @@
 import React, {useState} from 'react'; 
-import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
+import {Form, FormGroup, FormText, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import {useHistory} from 'react-router-dom'; 
 import "./SignUpForm.css";
 
@@ -14,7 +14,7 @@ const SignUpForm = ({registerUser}) => {
     email: ""
   }
   const [formData, setFormData] = useState(INITIAL_STATE);
-
+  // const { setError, errors } = useForm<LoginFormData>();
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(data => ({
@@ -23,11 +23,17 @@ const SignUpForm = ({registerUser}) => {
     }))
   }
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); 
-    registerUser(formData);
-    setFormData(INITIAL_STATE)
-    history.push('/companies');
+    try {
+      await registerUser(formData);
+      setFormData(INITIAL_STATE)
+      history.push('/companies');
+    } catch (err) {
+      debugger; 
+      console.log(err)
+    }
+
   }
   return (
     <Container className="SignUpForm col-5 ">
@@ -43,6 +49,7 @@ const SignUpForm = ({registerUser}) => {
                 id="username"
                 value={formData.username}
                 onChange={handleChange}
+                // required
               />
             </FormGroup>
             <FormGroup>
@@ -53,7 +60,11 @@ const SignUpForm = ({registerUser}) => {
                 id="password"
                 value={formData.password}
                 onChange={handleChange}
+                // required
+                // minLength="5"
               />
+              <FormText>Minimum of 6 characters</FormText>
+
             </FormGroup>
             <FormGroup>
               <Label htmlFor="firstName">First Name</Label>
@@ -63,6 +74,7 @@ const SignUpForm = ({registerUser}) => {
                 id="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
+                // required
               />
             </FormGroup>
             <FormGroup>
@@ -73,17 +85,23 @@ const SignUpForm = ({registerUser}) => {
                 id="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
+                // required
               />
             </FormGroup>
             <FormGroup>
               <Label htmlFor="email">Email</Label>
               <Input 
+                // pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
                 type="text"
                 name="email"
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="johnDoe@xyzmail.com"
+                // required
+                // minLength="6"
               />
+              <FormText>Minimum of 6 characters</FormText>
             </FormGroup>
             <Button color="primary">Submit</Button>
           </Form>
@@ -91,7 +109,6 @@ const SignUpForm = ({registerUser}) => {
       </Card>
      
     </Container>
-
   )
 
 }

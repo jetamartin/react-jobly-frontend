@@ -13,9 +13,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     const getCompanies = async () => {
-      debugger;
       let companyList = await JoblyAPI.getCompanies();
-      debugger;
       setCompanies(companyList);
       setIsLoading(false)
     }
@@ -33,7 +31,7 @@ const CompanyList = () => {
   } 
   return (
     <Container className="CompanyList col-md-8 offset-md-2 mt-4 mb-4">
-      <SearchForm searchCompanies={searchCompanies}/>
+      <SearchForm searchFunction={searchCompanies}/>
       {companies.map(company => (<CompanyCard company={company}  />))}
     </Container>
   

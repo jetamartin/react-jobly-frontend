@@ -46,8 +46,9 @@ class JoblyApi {
   }
 
   static async getCompanies(name) {
-    debugger;
+    // debugger;
     let res
+
     if (name) {
       res = await this.request(`companies`, {name});
     } else {
@@ -56,8 +57,14 @@ class JoblyApi {
     return res.companies; 
   }
 
-  static async getAllJobs() {
-    let res = await this.request(`jobs`);
+  static async getAllJobs(title) {
+    let res;
+    if (title) {
+      res = await this.request(`jobs`, {title});
+    } else {
+      res = await this.request(`jobs`);
+    }
+    
     // debugger;
     return res.jobs;
   }
@@ -67,13 +74,27 @@ class JoblyApi {
   // }
 
   static async registerUser(newUserInfo) {
-    let res = await this.request(`auth/register`,newUserInfo, "post");
-    return res;
+    try {
+      let res = await this.request(`auth/register`,newUserInfo, "post");
+      return res;
+    } catch (err) {
+      throw err;
+    }
+
   }
 
   static async loginUser(userCredentials) {
-    let res = await this.request(`auth/token`, userCredentials, "post");
-    return res; 
+    try {
+      let res = await this.request(`auth/token`, userCredentials, "post");
+      return res; 
+    } catch (err) {
+      // debugger
+      // console.error("API Error:", err.response);
+      // let message = err.response.data.error.message;
+      // throw Array.isArray(message) ? message : [message];
+      throw err;
+    }
+
   }
 
   static async request1(endpoint, data = {}, method = "get", token="") {
@@ -98,17 +119,31 @@ class JoblyApi {
   }
 
   static async getUserProfile(username, token) {
-    debugger;
-    let res = await this.request1(`users/${username}`, {}, 'get', token);
-    debugger;
-    return res.user;
+    // debugger;
+    try {
+      let res = await this.request1(`users/${username}`, {}, 'get', token);
+      debugger;
+      return res.user;
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.error.message;
+      throw Array.isArray(message) ? message : [message];
+    }
+
   }
 
   static async updateUserProfile(username, token, userProfileInfo) {
-    debugger; 
-    let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
-    debugger;
-    return res.user; 
+    // debugger; 
+    try {
+      let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
+      debugger;
+      return res.user; 
+    } catch (err) {
+      console.error("API Error:", err.response);
+      let message = err.response.data.error.message;
+      throw Array.isArray(message) ? message : [message];
+    }
+
   }
 
  

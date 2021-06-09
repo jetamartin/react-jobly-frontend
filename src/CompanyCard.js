@@ -22,7 +22,7 @@ const CompanyCard = ({company}) => {
   
  
   return (
-    <Card className = "CompanyCard">
+    <Card className = "CompanyCard" key="company.id">
       <Link to={`/companies/${company.handle}`}>
         <CardBody className="CompanyCard-cardbody">
           <Row className="CompanyCard-header">

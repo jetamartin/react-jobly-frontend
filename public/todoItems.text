@@ -1,0 +1,10 @@
+1. Why is SearchForm not clearing when I setFormDAta("");
+2. Implement Formik on all forms. 
+3. Implement password check of profile form (call to API to confirm password)
+ - Seems like this is a two step process.
+    a) Check if password is valid by sending login request (username & password)
+       if new token is returned, store new token & continue other show error on form (Invalid Password)
+       ?? Do I need to store new token returned and use it going forward
+    b) Call updateProfile method if successful then post success message on form
+      otherwise post error message. 
+     

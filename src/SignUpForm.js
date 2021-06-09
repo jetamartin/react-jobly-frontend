@@ -1,9 +1,15 @@
 import React, {useState} from 'react'; 
 import {Form, FormGroup, FormText, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
 import {useHistory} from 'react-router-dom'; 
+
+import ErrorMsg from './ErrorMsg';
 import "./SignUpForm.css";
 
+// var msg = TestString.replace(/instance:/g, "");
 
+const cleanErrorMsgs = (errors) => {
+  return errors.map(error => error.replace(/instance./g, ""));
+}
 const SignUpForm = ({registerUser}) => {
   const history = useHistory();
   const INITIAL_STATE = {
@@ -14,7 +20,8 @@ const SignUpForm = ({registerUser}) => {
     email: ""
   }
   const [formData, setFormData] = useState(INITIAL_STATE);
-  // const { setError, errors } = useForm<LoginFormData>();
+  const [ signUpErrorFormMsg, setSignUpErrorFormMsg] = useState([]);
+  
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(data => ({
@@ -32,6 +39,9 @@ const SignUpForm = ({registerUser}) => {
     } catch (err) {
       debugger; 
       console.log(err)
+      let cleanedErrorMessages = cleanErrorMsgs(err)
+      debugger
+      setSignUpErrorFormMsg(cleanedErrorMessages)
     }
 
   }
@@ -103,6 +113,9 @@ const SignUpForm = ({registerUser}) => {
               />
               <FormText>Minimum of 6 characters</FormText>
             </FormGroup>
+            {signUpErrorFormMsg.length !== 0 ?
+              signUpErrorFormMsg.map(errorMsg => <ErrorMsg errorMsg={errorMsg} />)
+            : ""}
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>

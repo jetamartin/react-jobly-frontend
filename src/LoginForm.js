@@ -1,6 +1,7 @@
 import React, {useState} from 'react'; 
 import { useHistory } from 'react-router-dom';
 import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "reactstrap";
+import ErrorMsg from './ErrorMsg';
 import "./LoginForm.css";
 
 const LoginForm = ({loginUser}) => {
@@ -11,6 +12,8 @@ const LoginForm = ({loginUser}) => {
     password: ""
   }
   const [formData, setFormData] = useState(initialState);
+  const [ loginErrorFormMsg, setLoginErrorFormMsg] = useState([]);
+
   const handleChange = e => {
     const { name, value } = e.target;
     setFormData(data => ({
@@ -26,6 +29,7 @@ const LoginForm = ({loginUser}) => {
       setFormData(initialState);
       history.push("/companies");
     } catch (err) {
+      setLoginErrorFormMsg(err)
       console.log(err)
     }
   }
@@ -35,7 +39,7 @@ const LoginForm = ({loginUser}) => {
       <h2 className="mb-3">Log In</h2>
       <Card>
         <CardBody>
-          <Form onSubmit={handleSubmit}>
+           <Form onSubmit={handleSubmit}>
           <FormGroup>
               <Label htmlFor="userName">User Name</Label>
               <Input 
@@ -59,6 +63,9 @@ const LoginForm = ({loginUser}) => {
                 minLength="5"  
               />
             </FormGroup>
+            {loginErrorFormMsg.length !== 0 ?
+              loginErrorFormMsg.map(errorMsg => <ErrorMsg errorMsg={errorMsg} />)
+            : ""}
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>

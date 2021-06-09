@@ -3,21 +3,6 @@ import {Form, FormGroup, Label, Input, Button, Container, Card, CardBody} from "
 import "./ProfileForm.css";
 import JoblyAPI from './JoblyAPI';
 
-// Need to get current user profile info if not stored as state or in local storage
-//  Most profile info available via user GET /users/:username
-//  Maybe initiate call to get profile info when user clicks on NavBar.
-//  Maybe we need a Profile component to hold that logic.   
-// 
-// How to confirm that password matches. Store in local store? State?
-//  -- Need it to compare to change profile? 
-
-// If password check is successful then need to issue a PATCH /users/:username
-//  results of that need api need to be available in the form
-// so that form values can be updated to reflect the changes
-// and a success message needs to be issued on Profile form.
-// No redirect required after successful profile.
-//  
-
 const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username}) => {
  
   const INITIAL_STATE = {

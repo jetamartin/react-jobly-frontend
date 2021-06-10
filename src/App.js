@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Switch, BrowserRouter, Route } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import UsernameContext from './UsernameContext';
+
 import ls from 'local-storage';
 import JoblyAPI from './JoblyAPI'
 import NavBar from './NavBar';
@@ -12,6 +14,7 @@ import LoginForm from './LoginForm';
 import SignUpForm from './SignUpForm';
 import ProfileForm from './ProfileForm';
 import NotFound from './NotFound'; 
+
 import './App.css';
 
 function App() {
@@ -135,7 +138,9 @@ function App() {
 
   return (
     <div className="App">
+
       <BrowserRouter>
+        <UsernameContext.Provider value={username}>
         <NavBar token={token} username={username} logoutUser={logoutUser}/>
         <main>
           <Switch>
@@ -146,10 +151,10 @@ function App() {
               <CompanyList />
             </Route>
             <Route exact path="/companies/:handle">
-              <CompanyDetail />
+              <CompanyDetail username={username} token={token} />
             </Route>
             <Route exact path="/jobs">
-               <JobList />
+               <JobList username={username} token={token} />
             </Route>
             <Route exact path="/login">
               <LoginForm loginUser={loginUser} />
@@ -165,6 +170,7 @@ function App() {
              </Route>
           </Switch>
         </main>
+        </UsernameContext.Provider>
       </BrowserRouter>
     </div>
   );

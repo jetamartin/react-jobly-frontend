@@ -1,6 +1,6 @@
 - Implement Apply to Applied functionality
+- Fix formatting of salary & equity data formats
 - Why is SearchForm not clearing when I setFormDAta("");
-- Implement server error display on forms (Formik?)
 - Resolve issue of why company logo's are not displaying. 
 
      

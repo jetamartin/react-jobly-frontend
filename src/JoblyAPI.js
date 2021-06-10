@@ -40,45 +40,57 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    debugger;
-    return res.company;
+    try {
+      let res = await this.request(`companies/${handle}`);
+      return res.company;
+
+    } catch (error) {
+      throw error;
+    }
+
   }
 
   static async getCompanies(name) {
     // debugger;
     let res
-
-    if (name) {
-      res = await this.request(`companies`, {name});
-    } else {
-      res = await this.request(`companies`);
+    try {
+      if (name) {
+        res = await this.request1(`companies`, {name});
+      } else {
+        res = await this.request1(`companies`);
+      }
+      return res.companies; 
+    } catch (error) {
+      throw error;
     }
-    return res.companies; 
+
   }
 
   static async getAllJobs(title) {
     let res;
-    if (title) {
-      res = await this.request(`jobs`, {title});
-    } else {
-      res = await this.request(`jobs`);
+    try {
+      if (title) {
+        res = await this.request1(`jobs`, {title});
+      } else {
+        res = await this.request1(`jobs`);
+      }
+      
+      // debugger;
+      return res.jobs;
+      
+    } catch (error) {
+      throw error;
     }
-    
-    // debugger;
-    return res.jobs;
+
   }
 
-  // static async getCompanyJobInfo(handle) {
-  //   let res = await this.request(`companies`)
-  // }
-
+  
   static async registerUser(newUserInfo) {
     try {
       let res = await this.request(`auth/register`,newUserInfo, "post");
       return res;
-    } catch (err) {
-      throw err;
+    } catch (error) {
+      throw error;
     }
 
   }
@@ -87,14 +99,13 @@ class JoblyApi {
     try {
       let res = await this.request(`auth/token`, userCredentials, "post");
       return res; 
-    } catch (err) {
+    } catch (error) {
       // debugger
       // console.error("API Error:", err.response);
       // let message = err.response.data.error.message;
       // throw Array.isArray(message) ? message : [message];
-      throw err;
+      throw error;
     }
-
   }
 
   static async request1(endpoint, data = {}, method = "get", token="") {
@@ -124,10 +135,8 @@ class JoblyApi {
       let res = await this.request1(`users/${username}`, {}, 'get', token);
       debugger;
       return res.user;
-    } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+    } catch (error) {
+      throw error;
     }
 
   }
@@ -138,15 +147,24 @@ class JoblyApi {
       let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
       debugger;
       return res.user; 
-    } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
-    }
+    } catch (error) {
+      throw error;
 
+    }
+  }
+  // POST /[username]/jobs/[id]  { state } => { application }
+  static async applyForJob(username, jobId, token1) {
+    try {
+      debugger
+      let applicationStatus = await this.request1(`users/${username}/jobs/${jobId}`, {}, 'post', token1)
+      debugger
+      return applicationStatus
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
- 
 }
 
 // for now, put token ("testuser" / "password" on class)

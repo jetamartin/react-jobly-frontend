@@ -13,10 +13,12 @@ const [applied, setHasApplied] = useState(false);
 
   const handleApplyClick = async (e) => {
     debugger;
-    const jobId = e.currentTarget.dataset.id;
+    const jobId = e.currentTarget.id;
     try {
-      let applicationStatus = await JoblyAPI.applyForJob(username, jobId, token);
-      const button = document.querySelector(`#${jobId}`);
+      await JoblyAPI.applyForJob(username, jobId, token);
+      const applyButton = document.getElementById(jobId);
+      applyButton.innerHTML="Applied";
+      applyButton.disabled=true;
       debugger;
       setHasApplied(true);
     } catch (error) {
@@ -30,7 +32,6 @@ const [applied, setHasApplied] = useState(false);
       <Card className = "JobCard" key="job.id">
         <CardBody>
           <CardTitle tag="h5">{job.title}</CardTitle>
-          {console.log(job.companyName)}
           {job.companyHandle ?
           <CardText>{job.companyName}</CardText>
           : ""
@@ -42,9 +43,9 @@ const [applied, setHasApplied] = useState(false);
             <small>Equity: {job.equity}</small>
           </div>
           {jobsApplied.includes(job.id) ?
-          <Button data-id={job.id} color="danger" disabled>Applied</Button> 
+          <Button id={job.id} color="danger" disabled>Applied</Button> 
           :
-          <Button data-id={job.id} onClick={handleApplyClick} color="danger">Apply</Button>
+          <Button id={job.id} onClick={handleApplyClick} color="danger">Apply</Button>
           }
         </CardBody>
       </Card>

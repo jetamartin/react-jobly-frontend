@@ -155,6 +155,8 @@ function App() {
             </Route>
             <Route exact path="/jobs">
                <JobList username={username} token={token} />
+               {/* <JobList  /> */}
+
             </Route>
             <Route exact path="/login">
               <LoginForm loginUser={loginUser} />

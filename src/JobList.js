@@ -6,12 +6,14 @@ import JobCard from './JobCard';
 import JoblyAPI from './JoblyAPI';
 
 const JobList = ({username, token}) => {
+  
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
   const [jobsApplied, setJobsApplied] = useState([])
 
   useEffect(() => {
     const getListOfJobs = async () => {
+      debugger;
       let jobs = await JoblyAPI.getAllJobs();
       setJobs(jobs)
       let userProfile = await JoblyAPI.getUserProfile(username, token);

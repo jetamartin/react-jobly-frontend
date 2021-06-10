@@ -63,11 +63,11 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   }
 
   const handleSubmit = async (e) => {
-    debugger;
     e.preventDefault();
     const {firstName, lastName, email, password} = formData;
     debugger;
     try {
+      debugger;
       await loginUser({username, password});
       await updateUserRegInfo(username, {firstName, lastName, email} );
       setFormData(formData => ({...formData, ...firstName, lastName, email }));
@@ -139,7 +139,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
                 minLength="5" 
               />
             </FormGroup>
-            {/* {Object.keys(profileFormMsg).length !== 0 ?  */}
+            {console.log(profileFormMsg)}
             {isEmptyObject(profileFormMsg) ? 
               <div className={`ProfileForm-messages ${profileFormMsg.status === "success" ? "successMsg" : "errorMsg"}`}>
                 {profileFormMsg.msg}
@@ -149,12 +149,8 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
           </Form>
         </CardBody>
       </Card>
-
-     
-    </Container>
-
+     </Container>
   )
-
 }
 
 export default ProfileForm; 

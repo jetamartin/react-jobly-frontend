@@ -1,6 +1,4 @@
-- Implement Apply to Applied functionality
-- Fix formatting of salary & equity data formats
 - Why is SearchForm not clearing when I setFormDAta("");
 - Resolve issue of why company logo's are not displaying. 
-
-     
+- Turn on "Loading...." to main page 
+- Clean up JoblyAPI request and request1 functions. How to assign token to preserve it.

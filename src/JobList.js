@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'; 
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 
 import SearchForm from './SearchForm';
 import JobCard from './JobCard';
 import JoblyAPI from './JoblyAPI';
+import './JobList.css';
 
 const JobList = ({username, token}) => {
   
@@ -13,11 +14,9 @@ const JobList = ({username, token}) => {
 
   useEffect(() => {
     const getListOfJobs = async () => {
-      debugger;
       let jobs = await JoblyAPI.getAllJobs();
       setJobs(jobs)
       let userProfile = await JoblyAPI.getUserProfile(username, token);
-      debugger;
       setJobsApplied(userProfile.applications);
       setIsLoading(false);
     }
@@ -31,7 +30,7 @@ const JobList = ({username, token}) => {
   }
 
   if (isLoading) {
-    return <p>Loading &hellip;</p>;
+    return <p className="JobList-loading">Loading &hellip;</p>;
   } 
 
   return (

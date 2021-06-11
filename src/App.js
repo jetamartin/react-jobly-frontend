@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Switch, BrowserRouter, Route } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 import UsernameContext from './UsernameContext';
 
 import ls from 'local-storage';

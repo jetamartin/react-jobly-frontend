@@ -17,7 +17,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   const [ profileFormMsg, setProfileFormMsg] = useState({});
 
   const emptyObject = (obj) => {
-    if (Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
        return true;
     } else {
       return false
@@ -31,15 +31,11 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
 
     if (userRegInfo === null || emptyObject(userRegInfo)) {
       const getUserInfo = async () => {
-        // debugger;
           try {
             let results = await JoblyAPI.getUserProfile(username, token);
-            // let results = await getUserRegInfo(username);
-            debugger;
             setFormData(formData => ({...formData, ...results}))
             setIsLoading(false)
           } catch (err) {
-            debugger;
             console.log(err)
             setProfileFormMsg({"error": err[0]});
           }
@@ -65,16 +61,12 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   const handleSubmit = async (e) => {
     e.preventDefault();
     const {firstName, lastName, email, password} = formData;
-    debugger;
     try {
-      debugger;
       await loginUser({username, password});
       await updateUserRegInfo(username, {firstName, lastName, email} );
       setFormData(formData => ({...formData, ...firstName, lastName, email }));
-      debugger;
       setProfileFormMsg({status: "success", msg: "Profile was successfully changed"});
     } catch (err) {
-      debugger;
       console.log(err)
       setProfileFormMsg({"status": "error", msg: err[0]})
     }
@@ -139,19 +131,13 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
                 minLength="5" 
               />
             </FormGroup>
-            {console.log(profileFormMsg)}
-            {/* {!emptyObject(profileFormMsg) ? 
+            {!emptyObject(profileFormMsg) ? 
               <div className={`ProfileForm-messages ${profileFormMsg.status === "success" ? "successMsg" : "errorMsg"}`}>
                 {profileFormMsg.msg}
               </div>
-              : ""
-            } */}
-            {!emptyObject(profileFormMsg) ? 
-              <div className={`ProfileForm-messages ${(profileFormMsg.status === "success" ? "successMsg" : "errorMsg")}`}>
-                {profileFormMsg.msg}
-              </div>
-              : ""
+              : null
             }
+
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>
@@ -161,5 +147,3 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
 }
 
 export default ProfileForm; 
-{/* <span className={`${styles.always} ${(condition ? styles.sometimes : '')`}>
-  </span> */}

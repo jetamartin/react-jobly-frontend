@@ -10,17 +10,7 @@ import './CompanyCard.css';
 
 const CompanyCard = ({company}) => {
 
-  // useEffect(() => {
-  //   const getCompanyJobData = async () => {
-  //     let result = await getCompanyJobs(handle);
-  //     debugger;
-  //     setIsLoading(false)
-  //     return results;
-  //   }
-  //   getCompanyJobData()
-  // },[])
-  
- 
+
   return (
     <Card className = "CompanyCard" key="company.id">
       <Link to={`/companies/${company.handle}`}>
@@ -30,7 +20,10 @@ const CompanyCard = ({company}) => {
                 <CardTitle tag="h5">{company.name}</CardTitle>
             </Col>
             <Col className="CompanyCard-logo"  sm={4}>
-              <img src={company.logoUrl} />
+              {console.log(company.logo_url)}
+              {/* <img src={`.${company.logo_url}`} alt={company.name} /> */}
+              <img src={company.logo_url} alt={company.name} />
+
             </Col>
           </Row>
           <CardText>{company.description}</CardText>

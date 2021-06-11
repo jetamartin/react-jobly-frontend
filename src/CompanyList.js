@@ -5,7 +5,8 @@ import JoblyAPI from './JoblyAPI';
 import SearchForm from './SearchForm';
 import CompanyCard from './CompanyCard';
 import JoblyApi from './JoblyAPI';
-// const CompanyList = ({companies}) => {
+import './CompanyList.css';
+
 const CompanyList = () => {
 
   const [companies, setCompanies] = useState([])
@@ -25,18 +26,15 @@ const CompanyList = () => {
     setCompanies(companyList);
     setIsLoading(false);
   }
-
   if (isLoading) {
-    return <p>Loading &hellip;</p>;
+    return <p className="CompanyList-loading">Loading &hellip;</p>;
   } 
   return (
     <Container className="CompanyList col-md-8 offset-md-2 mt-4 mb-4">
       <SearchForm searchFunction={searchCompanies}/>
       {companies.map(company => (<CompanyCard company={company}  />))}
     </Container>
-  
   )
-
 }
 
 export default CompanyList; 

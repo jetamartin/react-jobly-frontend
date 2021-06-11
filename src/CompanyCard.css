@@ -20,6 +20,9 @@
 .CompanyCard-header img {
  float: right; 
 }
+img {
+  height: 50px; 
+}
 
 
 

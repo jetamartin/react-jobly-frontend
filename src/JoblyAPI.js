@@ -28,7 +28,6 @@ class JoblyApi {
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
-      debugger;
       console.error("API Error:", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
@@ -51,7 +50,6 @@ class JoblyApi {
   }
 
   static async getCompanies(name) {
-    // debugger;
     let res
     try {
       if (name) {
@@ -74,10 +72,7 @@ class JoblyApi {
       } else {
         res = await this.request1(`jobs`);
       }
-      
-      // debugger;
       return res.jobs;
-      
     } catch (error) {
       throw error;
     }
@@ -100,10 +95,6 @@ class JoblyApi {
       let res = await this.request(`auth/token`, userCredentials, "post");
       return res; 
     } catch (error) {
-      // debugger
-      // console.error("API Error:", err.response);
-      // let message = err.response.data.error.message;
-      // throw Array.isArray(message) ? message : [message];
       throw error;
     }
   }
@@ -125,7 +116,6 @@ class JoblyApi {
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
-      debugger;
       console.error("API Error:", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
@@ -133,22 +123,17 @@ class JoblyApi {
   }
 
   static async getUserProfile(username, token) {
-    // debugger;
     try {
       let res = await this.request1(`users/${username}`, {}, 'get', token);
-      debugger;
       return res.user;
     } catch (error) {
       throw error;
     }
-
   }
 
   static async updateUserProfile(username, token, userProfileInfo) {
-    // debugger; 
     try {
       let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
-      debugger;
       return res.user; 
     } catch (error) {
       throw error;
@@ -158,9 +143,7 @@ class JoblyApi {
   // POST /[username]/jobs/[id]  { state } => { application }
   static async applyForJob(username, jobId, token1) {
     try {
-      debugger
       let applicationStatus = await this.request1(`users/${username}/jobs/${jobId}`, {}, 'post', token1)
-      debugger
       return applicationStatus
     } catch (error) {
       console.error(error);

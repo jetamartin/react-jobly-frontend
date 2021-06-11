@@ -9,8 +9,6 @@ import './CompanyCard.css';
 
 
 const CompanyCard = ({company}) => {
-
-
   return (
     <Card className = "CompanyCard" key="company.id">
       <Link to={`/companies/${company.handle}`}>
@@ -20,10 +18,8 @@ const CompanyCard = ({company}) => {
                 <CardTitle tag="h5">{company.name}</CardTitle>
             </Col>
             <Col className="CompanyCard-logo"  sm={4}>
-              {console.log(company.logo_url)}
-              {/* <img src={`.${company.logo_url}`} alt={company.name} /> */}
-              <img src={company.logo_url} alt={company.name} />
-
+              {console.log(company.logoUrl)}
+              <img src={company.logoUrl} alt={company.name} />
             </Col>
           </Row>
           <CardText>{company.description}</CardText>

@@ -16,21 +16,17 @@ const numWithComma = (a) => {
 }
 
   const handleApplyClick = async (e) => {
-    debugger;
     const jobId = e.currentTarget.id;
     try {
       await JoblyAPI.applyForJob(username, jobId, token);
       const applyButton = document.getElementById(jobId);
       applyButton.innerHTML="Applied";
       applyButton.disabled=true;
-      // debugger;
       // setHasApplied(true);
     } catch (error) {
       console.log(error)
-      debugger;
     }
   }
-  debugger;
   return (
 
 

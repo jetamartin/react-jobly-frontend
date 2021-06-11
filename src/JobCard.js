@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'; 
+import NumberFormat from 'react-number-format';
 import {
   Card, CardText, CardBody,
   CardTitle, CardSubtitle, Button
@@ -10,6 +11,9 @@ import './JobCard.css';
 
 const JobCard = ({job, username, token, jobsApplied}) => {
 const [applied, setHasApplied] = useState(false); 
+const numWithComma = (a) => {
+  return a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
   const handleApplyClick = async (e) => {
     debugger;
@@ -19,8 +23,8 @@ const [applied, setHasApplied] = useState(false);
       const applyButton = document.getElementById(jobId);
       applyButton.innerHTML="Applied";
       applyButton.disabled=true;
-      debugger;
-      setHasApplied(true);
+      // debugger;
+      // setHasApplied(true);
     } catch (error) {
       console.log(error)
       debugger;
@@ -29,6 +33,8 @@ const [applied, setHasApplied] = useState(false);
   debugger;
   return (
 
+
+
       <Card className = "JobCard" key="job.id">
         <CardBody>
           <CardTitle tag="h5">{job.title}</CardTitle>
@@ -36,9 +42,13 @@ const [applied, setHasApplied] = useState(false);
           <CardText>{job.companyName}</CardText>
           : ""
           } 
+          {job.salary ?
           <div>
-            <small>Salary {job.salary}</small>
-          </div>
+            <small>
+              Salary <NumberFormat value={job.salary} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+            </small>
+            </div>
+            : ""}
           <div>
             <small>Equity: {job.equity}</small>
           </div>

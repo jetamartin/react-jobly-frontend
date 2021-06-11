@@ -16,7 +16,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   const [isLoading, setIsLoading] = useState(true);
   const [ profileFormMsg, setProfileFormMsg] = useState({});
 
-  const isEmptyObject = (obj) => {
+  const emptyObject = (obj) => {
     if (Object.keys(userRegInfo).length === 0 && userRegInfo.constructor === Object) {
        return true;
     } else {
@@ -29,7 +29,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
     // if no userRegInfo then request from server
     userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
 
-    if (userRegInfo === null || isEmptyObject(userRegInfo)) {
+    if (userRegInfo === null || emptyObject(userRegInfo)) {
       const getUserInfo = async () => {
         // debugger;
           try {
@@ -76,7 +76,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
     } catch (err) {
       debugger;
       console.log(err)
-      setProfileFormMsg({status: "error", msg: err[0]})
+      setProfileFormMsg({"status": "error", msg: err[0]})
     }
   }
 
@@ -140,11 +140,18 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
               />
             </FormGroup>
             {console.log(profileFormMsg)}
-            {isEmptyObject(profileFormMsg) ? 
+            {/* {!emptyObject(profileFormMsg) ? 
               <div className={`ProfileForm-messages ${profileFormMsg.status === "success" ? "successMsg" : "errorMsg"}`}>
                 {profileFormMsg.msg}
               </div>
-            : ""}
+              : ""
+            } */}
+            {!emptyObject(profileFormMsg) ? 
+              <div className={`ProfileForm-messages ${(profileFormMsg.status === "success" ? "successMsg" : "errorMsg")}`}>
+                {profileFormMsg.msg}
+              </div>
+              : ""
+            }
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>
@@ -154,3 +161,5 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
 }
 
 export default ProfileForm; 
+{/* <span className={`${styles.always} ${(condition ? styles.sometimes : '')`}>
+  </span> */}

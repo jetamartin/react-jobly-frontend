@@ -7,7 +7,6 @@ import JoblyAPI from './JoblyAPI';
 import './JobList.css';
 
 const JobList = ({username, token}) => {
-  debugger;
   
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true)

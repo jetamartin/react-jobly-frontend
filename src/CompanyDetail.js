@@ -35,7 +35,6 @@ const CompanyDetail = ({username, token}) => {
   return (
     <Container className="col-8 pt-5">
       <h4>{companyJobData.name}</h4>
-      {console.log(companyJobData)}
       <p>{companyJobData.description}</p>
       {/* Get all jobs openings for this company
       Map through all return jobs <Jobcard>. that match this employer  */}

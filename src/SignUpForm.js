@@ -5,8 +5,6 @@ import {useHistory} from 'react-router-dom';
 import ErrorMsg from './ErrorMsg';
 import "./SignUpForm.css";
 
-// var msg = TestString.replace(/instance:/g, "");
-
 const cleanErrorMsgs = (errors) => {
   return errors.map(error => error.replace(/instance./g, ""));
 }
@@ -37,11 +35,12 @@ const SignUpForm = ({registerUser}) => {
       setFormData(INITIAL_STATE)
       history.push('/companies');
     } catch (err) {
-      debugger; 
       console.log(err)
-      let cleanedErrorMessages = cleanErrorMsgs(err)
-      debugger
-      setSignUpErrorFormMsg(cleanedErrorMessages)
+      // Error returned might not be an array 
+      if (Array.isArray(err)) {
+        let cleanedErrorMessages = cleanErrorMsgs(err)
+        setSignUpErrorFormMsg(cleanedErrorMessages)
+      }
     }
 
   }
@@ -107,7 +106,7 @@ const SignUpForm = ({registerUser}) => {
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="johnDoe@xyzmail.com"
+                placeholder="johnDoe@examplemail.com"
                 // required
                 // minLength="6"
               />

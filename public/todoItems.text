@@ -1,5 +1,3 @@
-- Fix bug where user clicks on companies => company detail => marks job as applied => reloads the page after applying for job;
-- Cleanup all warnings I'm getting;
 - Look at my use of Context to see if i'm using it properly
 - Re-evaluate code and see if I can clean it up...For example I have lots of useEffects() defined in App.js. 
   Are these really needed?

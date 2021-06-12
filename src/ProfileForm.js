@@ -25,17 +25,15 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
       return false
     }
   }
-  // if no userRegInfo then request from server
-  userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
 
   // Preload ProfileForm 
   useEffect(() => {
 
-    if (userRegInfo === null || emptyObject(userRegInfo)) {
       const getUserInfo = async () => {
           try {
-            let results = await JoblyAPI.getUserProfile(username, token);
-            setFormData(formData => ({...formData, ...results}))
+            let userRegInfo = await JoblyAPI.getUserProfile(username, token);
+            setFormData(formData => ({...formData, ...userRegInfo}))
+            setProfileFormMsg({});
             setIsLoading(false)
           } catch (err) {
             console.log(err)
@@ -43,11 +41,6 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
           }
         }
         getUserInfo();
-      } else {
-        setFormData(formData => ({...formData, ...userRegInfo}))
-        setIsLoading(false)
-      }
-
   }, [username, token, dirtyForm])
  
 

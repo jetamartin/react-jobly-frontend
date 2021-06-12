@@ -16,7 +16,6 @@ const SearchForm = ({searchFunction}) => {
   const submitForm = async (e) => {
     e.preventDefault();
     await searchFunction(formData.searchFilter); 
-    debugger;
     setFormData(initialState);
   }
 

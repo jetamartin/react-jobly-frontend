@@ -18,7 +18,7 @@ import './App.css';
 
 function App() {
 
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   const [userRegInfo, setUserRegInfo] = useState({})
@@ -63,14 +63,12 @@ function App() {
   const loginUser = async (userCredentials) => {
     try {
       let results = await JoblyAPI.loginUser(userCredentials)
-      debugger;
       setToken(results.token);
       setUsername(userCredentials.username);
       await ls.set('token', results.token);
       await ls.set('username', userCredentials.username);
       return results; 
     } catch (err) {
-      debugger;
       throw err;
     }
   }
@@ -87,9 +85,7 @@ function App() {
   const registerUser = async (userInfo) => {
     try {
       let results = await JoblyAPI.registerUser(userInfo);
-      // debugger;
       setUserRegInfo(userRegInfo => ({...userRegInfo, ...userInfo}))
-      debugger;
       setUsername(userInfo.username);
       setToken(results.token)
       await localStorage.setItem('token', results.token);
@@ -103,7 +99,6 @@ function App() {
    const getUserRegInfo = async (username) => {
      try {
       let results = await JoblyAPI.getUserProfile(username, token);
-      //  debugger;
        setUserRegInfo(userRegInfo => ({...userRegInfo, ...results}))
        localStorage.setItem('userRegInfo', JSON.stringify(results));
        return results;
@@ -113,7 +108,6 @@ function App() {
    }
 
    const updateUserRegInfo = async (username, userProfileInfo ) => {
-      // debugger;
       try {
         let user = await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
         setUserRegInfo(userRegInfo => ({...userRegInfo, ...user}))
@@ -154,8 +148,6 @@ function App() {
             </Route>
             <Route exact path="/jobs">
                <JobList username={username} token={token} />
-               {/* <JobList  /> */}
-
             </Route>
             <Route exact path="/login">
               <LoginForm loginUser={loginUser} />

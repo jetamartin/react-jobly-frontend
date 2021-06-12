@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'; 
+import React from 'react'; 
 import NumberFormat from 'react-number-format';
 import {
   Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Button
-} from 'reactstrap';
+  CardTitle,  Button } from 'reactstrap';
 import JoblyAPI from './JoblyAPI';
 
 import './JobCard.css';
 
 
 const JobCard = ({job, username, token, jobsApplied}) => {
-const [applied, setHasApplied] = useState(false); 
+// const [applied, setHasApplied] = useState(false); 
 const numWithComma = (a) => {
   return a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

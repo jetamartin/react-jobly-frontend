@@ -1,14 +1,18 @@
 import React from 'react'; 
 import {Link} from 'react-router-dom';
 import {
-  Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Button
-} from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
+  Card, CardText, CardBody,  CardTitle} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+import genericLogo from './genericLogo.png';
 import './CompanyCard.css';
 
 
 const CompanyCard = ({company}) => {
+  // If null value specified for logo in database then use a genericLogo instead
+  if (!company.logoUrl) {
+    company.logoUrl = genericLogo;
+  }
+
   return (
     <Card className = "CompanyCard" key="company.id">
       <Link to={`/companies/${company.handle}`}>
@@ -18,8 +22,11 @@ const CompanyCard = ({company}) => {
                 <CardTitle tag="h5">{company.name}</CardTitle>
             </Col>
             <Col className="CompanyCard-logo"  sm={4}>
-              {console.log(company.logoUrl)}
-              <img src={company.logoUrl} alt={company.name} />
+              {/* if frontend doesn't have the specified logo (e.g., /logos/logo2.png) then sub genericLogo in public folder */}
+              <img 
+                src={company.logoUrl}
+                alt={company.name}
+                onError={(e)=>{e.target.onerror = null; e.target.src="/logos/genericLogo.png"}}/>
             </Col>
           </Row>
           <CardText>{company.description}</CardText>

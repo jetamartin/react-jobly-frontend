@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'; 
-import { Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 import JoblyAPI from './JoblyAPI';
 
 import SearchForm from './SearchForm';
@@ -32,7 +32,7 @@ const CompanyList = () => {
   return (
     <Container className="CompanyList col-md-8 offset-md-2 mt-4 mb-4">
       <SearchForm searchFunction={searchCompanies}/>
-      {companies.map(company => (<CompanyCard company={company}  />))}
+      {companies.map(company => (<CompanyCard key={company.handle} company={company}  />))}
     </Container>
   )
 }

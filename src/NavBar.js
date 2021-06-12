@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav, NavItem } from "reactstrap";
+import { Navbar, Nav } from "reactstrap";
 import Login from './LoggedOut';
 import LoggedIn from './LoggedIn';
 import "./NavBar.css";

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav, NavItem } from "reactstrap";
+import { NavItem } from "reactstrap";
 import {useHistory} from "react-router-dom";
 import JoblyAPI from './JoblyAPI';
 

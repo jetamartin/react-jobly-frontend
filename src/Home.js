@@ -1,5 +1,5 @@
 import React from 'react'; 
-import { Container, Jumbotron, Button } from "reactstrap";
+import { Jumbotron, Button } from "reactstrap";
 import {Link} from 'react-router-dom';
 
 const Home = ({username}) => {

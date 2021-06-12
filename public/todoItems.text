@@ -1,4 +1,7 @@
-- Why is SearchForm not clearing when I setFormDAta("");
-- Resolve issue of why company logo's are not displaying. 
-- Turn on "Loading...." to main page 
+- Fix bug where user clicks on companies => company detail => marks job as applied => reloads the page after applying for job;
+- Cleanup all warnings I'm getting;
+- Look at my use of Context to see if i'm using it properly
+- Re-evaluate code and see if I can clean it up...For example I have lots of useEffects() defined in App.js. 
+  Are these really needed?
 - Clean up JoblyAPI request and request1 functions. How to assign token to preserve it.
+- Deploy to project to Heroku. 

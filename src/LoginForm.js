@@ -5,7 +5,6 @@ import ErrorMsg from './ErrorMsg';
 import "./LoginForm.css";
 
 const LoginForm = ({loginUser}) => {
-  // debugger;
   const history = useHistory();
   const initialState = {
     username: "",
@@ -23,7 +22,6 @@ const LoginForm = ({loginUser}) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
     try {
       await loginUser(formData);
       setFormData(initialState);

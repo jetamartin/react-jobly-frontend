@@ -9,10 +9,6 @@ import './JobCard.css';
 
 
 const JobCard = ({job, username, token, jobsApplied}) => {
-// const [applied, setHasApplied] = useState(false); 
-const numWithComma = (a) => {
-  return a.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
   const handleApplyClick = async (e) => {
     const jobId = e.currentTarget.id;
@@ -21,7 +17,6 @@ const numWithComma = (a) => {
       const applyButton = document.getElementById(jobId);
       applyButton.innerHTML="Applied";
       applyButton.disabled=true;
-      // setHasApplied(true);
     } catch (error) {
       console.log(error)
     }

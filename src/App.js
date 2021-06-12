@@ -96,16 +96,16 @@ function App() {
     }
    }
 
-   const getUserRegInfo = async (username) => {
-     try {
-      let results = await JoblyAPI.getUserProfile(username, token);
-       setUserRegInfo(userRegInfo => ({...userRegInfo, ...results}))
-       localStorage.setItem('userRegInfo', JSON.stringify(results));
-       return results;
-     } catch (err) {
-      throw err;
-     }
-   }
+  //  const getUserRegInfo = async (username) => {
+  //    try {
+  //     let results = await JoblyAPI.getUserProfile(username, token);
+  //      setUserRegInfo(userRegInfo => ({...userRegInfo, ...results}))
+  //      localStorage.setItem('userRegInfo', JSON.stringify(results));
+  //      return results;
+  //    } catch (err) {
+  //     throw err;
+  //    }
+  //  }
 
    const updateUserRegInfo = async (username, userProfileInfo ) => {
       try {
@@ -156,7 +156,7 @@ function App() {
               <SignUpForm registerUser={registerUser} />
             </Route>
             <Route exact path ="/profile">
-              <ProfileForm userRegInfo={userRegInfo} token={token} username={username} updateUserRegInfo={updateUserRegInfo} loginUser={loginUser} />
+              <ProfileForm  userRegInfo={userRegInfo} token={token} username={username} updateUserRegInfo={updateUserRegInfo} loginUser={loginUser} />
             </Route>
             <Route>
               <NotFound />

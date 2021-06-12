@@ -15,6 +15,8 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   const [ formData, setFormData ] = useState(INITIAL_STATE);
   const [isLoading, setIsLoading] = useState(true);
   const [ profileFormMsg, setProfileFormMsg] = useState({});
+  const [ dirtyForm, setDirtyForm ] = useState(false);
+  const inputEntered = false;
 
   const emptyObject = (obj) => {
     if (Object.keys(obj).length === 0 && obj.constructor === Object) {
@@ -23,11 +25,11 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
       return false
     }
   }
+  // if no userRegInfo then request from server
+  userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
 
   // Preload ProfileForm 
   useEffect(() => {
-    // if no userRegInfo then request from server
-    userRegInfo = JSON.parse(localStorage.getItem('userRegInfo'));
 
     if (userRegInfo === null || emptyObject(userRegInfo)) {
       const getUserInfo = async () => {
@@ -46,12 +48,19 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
         setIsLoading(false)
       }
 
-  }, [username, token])
+  }, [username, token, dirtyForm])
  
 
 
   const handleChange = e => {
     const { name, value } = e.target;
+    // Once user starts entering data in form field mark it as dirty so success/error message is removed
+    if (!inputEntered) {  
+      // Setting Form Message to empty object and then causing form to be re-rendered due to change
+      //  will cause success/error form messages from being cleared. 
+      setProfileFormMsg({});
+      setDirtyForm(true)
+    }
     setFormData(data => ({
       ...data, 
       [name] : value

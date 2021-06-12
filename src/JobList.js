@@ -7,6 +7,7 @@ import JoblyAPI from './JoblyAPI';
 import './JobList.css';
 
 const JobList = ({username, token}) => {
+  debugger;
   
   const [jobs, setJobs] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
@@ -14,14 +15,18 @@ const JobList = ({username, token}) => {
 
   useEffect(() => {
     const getListOfJobs = async () => {
-      let jobs = await JoblyAPI.getAllJobs();
-      setJobs(jobs)
-      let userProfile = await JoblyAPI.getUserProfile(username, token);
-      setJobsApplied(userProfile.applications);
-      setIsLoading(false);
+      try {
+        let jobs = await JoblyAPI.getAllJobs();
+        setJobs(jobs)
+        let userProfile = await JoblyAPI.getUserProfile(username, token);
+        setJobsApplied(userProfile.applications);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error)
+      }
     }
     getListOfJobs();
-  }, [])
+  }, [username, token])
 
   const searchJobs = async (title) => {
     let jobsList = await JoblyAPI.getAllJobs(title); 

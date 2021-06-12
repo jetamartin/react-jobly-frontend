@@ -26,7 +26,7 @@ const CompanyDetail = ({username, token}) => {
       }
     }
     getCompanyJobData()
-  },[])
+  },[username, token, handle])
 
   if (isLoading) {
     return <p className="CompanyDetail-loading">Loading &hellip;</p>;

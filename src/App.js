@@ -56,7 +56,7 @@ function App() {
   const logoutUser = () => {
     ls.remove('token')
     ls.remove('username')
-    ls.remove('firstname')
+    ls.remove('firstName')
     setUsername("");
     setToken("");
     setFirstName("");
@@ -68,9 +68,9 @@ function App() {
       setUsername(userInfo.username);
       setFirstName(userInfo.firstName);
       setToken(results.token)
-      await ls.set('token', results.token);
-      await ls.set('username', userInfo.username)
-      await ls.set('firstName', userInfo.firstName);
+      ls.set('token', results.token);
+      ls.set('username', userInfo.username)
+      ls.set('firstName', userInfo.firstName);
     } catch (err) {
       throw err;
     }

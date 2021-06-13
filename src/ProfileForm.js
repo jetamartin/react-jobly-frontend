@@ -4,12 +4,11 @@ import "./ProfileForm.css";
 import JoblyAPI from './JoblyAPI';
 
 const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username}) => {
- 
+
   const INITIAL_STATE = {
     firstName: "",
     lastName: "",
     email: "",
-    
   }
   
   const [ formData, setFormData ] = useState(INITIAL_STATE);
@@ -75,7 +74,7 @@ const ProfileForm = ({userRegInfo, token, updateUserRegInfo, loginUser, username
   }
 
   if (isLoading) {
-    return <p>Loading &hellip;</p>;
+    return <p className="ProfileForm-loading">Loading &hellip;</p>;
   }
  
 

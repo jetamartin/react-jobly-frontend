@@ -39,71 +39,42 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    try {
-      let res = await this.request(`companies/${handle}`);
-      return res.company;
-
-    } catch (error) {
-      throw error;
-    }
-
+    let res = await this.request(`companies/${handle}`);
+    return res.company;
   }
 
   static async getCompanies(name) {
     let res
-    try {
-      if (name) {
-        res = await this.request1(`companies`, {name});
-      } else {
-        res = await this.request1(`companies`);
-      }
-      return res.companies; 
-    } catch (error) {
-      throw error;
+    if (name) {
+      res = await this.request1(`companies`, {name});
+    } else {
+      res = await this.request1(`companies`);
     }
-
+    return res.companies; 
   }
 
   static async getAllJobs(title) {
     let res;
-    try {
-      if (title) {
-        res = await this.request1(`jobs`, {title});
-      } else {
-        res = await this.request1(`jobs`);
-      }
-      return res.jobs;
-    } catch (error) {
-      throw error;
+    if (title) {
+      res = await this.request1(`jobs`, {title});
+    } else {
+      res = await this.request1(`jobs`);
     }
-
+    return res.jobs;
   }
 
   
   static async registerUser(newUserInfo) {
-    try {
-      let res = await this.request(`auth/register`,newUserInfo, "post");
-      return res;
-    } catch (error) {
-      throw error;
-    }
-
+    let res = await this.request(`auth/register`,newUserInfo, "post");
+    return res;
   }
 
   static async loginUser(userCredentials) {
-    try {
-      let res = await this.request(`auth/token`, userCredentials, "post");
-      return res; 
-    } catch (error) {
-      throw error;
-    }
+    let res = await this.request(`auth/token`, userCredentials, "post");
+    return res; 
   }
 
   static async request1(endpoint, data = {}, method = "get", token="") {
-    console.debug("API Call:", endpoint, data, method, token);
-
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
     let headers = {}
     if (token) {
@@ -123,32 +94,19 @@ class JoblyApi {
   }
 
   static async getUserProfile(username, token) {
-    try {
-      let res = await this.request1(`users/${username}`, {}, 'get', token);
-      return res.user;
-    } catch (error) {
-      throw error;
-    }
+    let res = await this.request1(`users/${username}`, {}, 'get', token);
+    return res.user;
   }
 
   static async updateUserProfile(username, token, userProfileInfo) {
-    try {
-      let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
-      return res.user; 
-    } catch (error) {
-      throw error;
-
-    }
+    let res = await this.request1(`users/${username}`, userProfileInfo, 'patch', token);
+    return res.user; 
   }
+
   // POST /[username]/jobs/[id]  { state } => { application }
   static async applyForJob(username, jobId, token1) {
-    try {
-      let applicationStatus = await this.request1(`users/${username}/jobs/${jobId}`, {}, 'post', token1)
-      return applicationStatus
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    let applicationStatus = await this.request1(`users/${username}/jobs/${jobId}`, {}, 'post', token1)
+    return applicationStatus
   }
 
 }

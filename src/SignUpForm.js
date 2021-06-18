@@ -122,7 +122,6 @@ const SignUpForm = ({registerUser}) => {
      
     </Container>
   )
-
 }
 
 export default SignUpForm; 

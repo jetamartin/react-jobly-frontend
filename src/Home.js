@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Button } from "reactstrap";
 import {Link} from 'react-router-dom';
 import JoblyAPI from './JoblyAPI';
-import ls from 'local-storage';
-
 
 const Home = ({username, token}) => {
 
   const [firstName, setFirstName] = useState("");
- 
-  // if username or token name prop not available then get it from local storage
-  if (!username || !token) {
-    username= ls.get('username');
-    token = ls.get('token');
-  }
- 
+
+  useEffect (() => {
+    if (!token) {
+      console.log("Refresh firstName");
+      setFirstName("");
+    }
+  }, [token]);
+
+
   useEffect(() => {
     const getUserName = async () => {
       try {
@@ -43,12 +43,8 @@ const Home = ({username, token}) => {
           <Link to="signup">
             <Button className="m-2" color="primary">Sign Up</Button>
           </Link>
-
         </p>}
-
       </Jumbotron>
-
-
     </div>
   )
 

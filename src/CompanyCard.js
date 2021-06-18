@@ -8,10 +8,9 @@ import './CompanyCard.css';
 
 
 const CompanyCard = ({company}) => {
-  // If null value specified for logo in database then use a genericLogo instead
-  if (!company.logoUrl) {
-    company.logoUrl = genericLogo;
-  }
+
+  // if the company.logoUrl value provided is null then fall back to the genericLogo value
+  const logoUrl = company.logoUrl || genericLogo;
 
   return (
     <Card className = "CompanyCard" key="company.id">
@@ -24,9 +23,10 @@ const CompanyCard = ({company}) => {
             <Col className="CompanyCard-logo"  sm={4}>
               {/* if frontend doesn't have the specified logo (e.g., /logos/logo2.png) then sub genericLogo in public folder */}
               <img 
-                src={company.logoUrl}
+                src={logoUrl}
                 alt={company.name}
-                onError={(e)=>{e.target.onerror = null; e.target.src="/logos/genericLogo.png"}}/>
+                // onError={(e)=>{e.target.onerror = null; e.target.src="/logos/genericLogo.png"}}
+                />
             </Col>
           </Row>
           <CardText>{company.description}</CardText>

@@ -22,7 +22,7 @@ const LoggedIn = ({username, token, logoutUser}) => {
         <NavLink to="/profile">Profile</NavLink>
       </NavItem>
       <NavItem>
-        <NavLink onClick={logoutClicked} to="\" >Log Out {username}</NavLink>
+        <NavLink id="logout" onClick={logoutClicked} to="\" >Log Out {username}</NavLink>
       </NavItem>
     </>
   )

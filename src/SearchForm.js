@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import { Button, Form, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
 const SearchForm = ({searchFunction}) => {
-  const [formData, setFormData ] = useState("");
-  const initialState = "";
+  const initialState ={};
+  const [formData, setFormData ] = useState(initialState);
+
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -15,9 +16,9 @@ const SearchForm = ({searchFunction}) => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await searchFunction(formData.searchFilter); 
+    await searchFunction(formData.searchFilter);
     setFormData(initialState);
-  }
+   }
 
   return (
     <div >
@@ -29,6 +30,7 @@ const SearchForm = ({searchFunction}) => {
             id="search" 
             placeholder="Enter Search Term..." 
             value={formData.searchFilter}
+            // value={formData ? formData.searchFilter : null}
             onChange={handleChange}
             />
           <InputGroupAddon addonType="append">

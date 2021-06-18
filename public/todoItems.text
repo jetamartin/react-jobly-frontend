@@ -1,5 +1,16 @@
-- Look at my use of Context to see if i'm using it properly
+- Look at my use of Context to see if i'm using it properly Did it make a difference?
 - Re-evaluate code and see if I can clean it up...For example I have lots of useEffects() defined in App.js. 
   Are these really needed?
 - Clean up JoblyAPI request and request1 functions. How to assign token to preserve it.
-- Deploy to project to Heroku. 
+
+Question:   
+1 - Don't understand why React is doing so many renders. (e.g., what specific actions result in re-render? )
+2 - If you want initiate a call to API what is the best way to achieve that (e.g. useEffect, just call API from
+     handleSubmit, pass function as prop into handleSubmit and have submit call that method, etc. )
+3 - Clear deliniation on when state is needed vs not needed? Observation: seems like you want to use as little 
+    state as possible because every time you update state it causes a re-render?
+4 - Best practices surrounding the use of localStorage (remove local storage values each time user logs out?).
+    For example, it's nice to have local storage available BUT you can't always count on it being there as a user
+    could clear local storage at any time. So in light of that how much should you rely on the values being there...
+    and if you can't count on it being there should you always have a fall back to re-retrieve the data from a
+    server via API calls. And if so what does that pattern look like (e.g., if statement inside useEffect()?)

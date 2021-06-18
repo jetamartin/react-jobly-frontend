@@ -5,6 +5,7 @@ import ErrorMsg from './ErrorMsg';
 import "./LoginForm.css";
 
 const LoginForm = ({loginUser}) => {
+  debugger;
   const history = useHistory();
   const initialState = {
     username: "",
@@ -63,15 +64,12 @@ const LoginForm = ({loginUser}) => {
             </FormGroup>
             {loginErrorFormMsg.length !== 0 ?
               loginErrorFormMsg.map(errorMsg => <ErrorMsg errorMsg={errorMsg} />)
-            : ""}
+            : null}
             <Button color="primary">Submit</Button>
           </Form>
         </CardBody>
       </Card>
-
-     
     </Container>
-
   )
 
 }

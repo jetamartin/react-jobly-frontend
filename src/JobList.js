@@ -44,7 +44,6 @@ const JobList = ({username, token}) => {
       </Row>
       {jobs.map(job => (<JobCard key={job.id} job={job} username={username} token={token} jobsApplied={jobsApplied}  />))}
     </Container>
-  
   )
 }
 

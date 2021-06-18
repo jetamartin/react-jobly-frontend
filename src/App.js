@@ -20,37 +20,24 @@ function App() {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
-  
-
-   // On intial page load retrieve token from local storage
-  useEffect(()=> {
-      const getUserToken = async () => {
-      setToken(await ls.get('token') || "") 
-    }
-    getUserToken();
-    }, []);
-
-
 
   useEffect(() => {
-    const getUserName= async () => {
-      setUsername(await ls.get('username') || "")
+    const loadFromLocalStorage = () => {
+      setToken(ls.get('token') || "");
+      setUsername(ls.get('username') || "")
+      setFirstName(ls.get('firstName') || "");
     }
-    getUserName();
-  }, [] );
-  
+    loadFromLocalStorage()
+  }, [])
+
   
   const loginUser = async (userCredentials) => {
-    try {
-      let results = await JoblyAPI.loginUser(userCredentials)
-      setToken(results.token);
-      setUsername(userCredentials.username);
-      ls.set('token', results.token);
-      ls.set('username', userCredentials.username);
-      return results; 
-    } catch (err) {
-      throw err;
-    }
+    let results = await JoblyAPI.loginUser(userCredentials)
+    setToken(results.token);
+    setUsername(userCredentials.username);
+    ls.set('token', results.token);
+    ls.set('username', userCredentials.username);
+    return results; 
   }
 
   const logoutUser = () => {
@@ -63,27 +50,19 @@ function App() {
   }
 
   const registerUser = async (userInfo) => {
-    try {
-      let results = await JoblyAPI.registerUser(userInfo);
-      setUsername(userInfo.username);
-      setFirstName(userInfo.firstName);
-      setToken(results.token)
-      ls.set('token', results.token);
-      ls.set('username', userInfo.username)
-      ls.set('firstName', userInfo.firstName);
-    } catch (err) {
-      throw err;
-    }
+    let results = await JoblyAPI.registerUser(userInfo);
+    setUsername(userInfo.username);
+    setFirstName(userInfo.firstName);
+    setToken(results.token);
+    ls.set('token', results.token);
+    ls.set('username', userInfo.username)
+    ls.set('firstName', userInfo.firstName);
    }
 
-   const updateUserRegInfo = async (username, userProfileInfo ) => {
-      try {
-        let user = await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
-        return user; 
-      } catch (err) {
-        throw err
-      }
-    }
+  const updateUserRegInfo = async (username, userProfileInfo ) => {
+    let user = await JoblyAPI.updateUserProfile(username, token, userProfileInfo);
+    return user; 
+  }
 
   return (
     <div className="App">

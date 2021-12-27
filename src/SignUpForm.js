@@ -42,7 +42,6 @@ const SignUpForm = ({registerUser}) => {
         setSignUpErrorFormMsg(cleanedErrorMessages)
       }
     }
-
   }
   return (
     <Container className="SignUpForm col-5 ">

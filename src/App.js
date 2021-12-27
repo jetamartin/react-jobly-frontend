@@ -50,6 +50,7 @@ function App() {
   }
 
   const registerUser = async (userInfo) => {
+    debugger;
     let results = await JoblyAPI.registerUser(userInfo);
     setUsername(userInfo.username);
     setFirstName(userInfo.firstName);

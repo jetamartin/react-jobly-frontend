@@ -5,6 +5,11 @@
 } */
 }
 
+.NavBar-logo {
+  width: 7rem;
+  height: 3rem;
+}
+
 .navbar-brand {
   margin-left: 1rem;
 }

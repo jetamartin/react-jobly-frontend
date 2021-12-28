@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import JoblyAPI from "./JoblyAPI";
 
 const Home = ({ username, token }) => {
-  debugger;
+  // debugger;
   const [firstName, setFirstName] = useState("");
 
   useEffect(() => {
